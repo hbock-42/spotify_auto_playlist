@@ -55,3 +55,13 @@ lint:
     fvm flutter analyze lib
     @echo "{{NORMAL}}\c"
 
+
+alias fg := flutter-gen
+# Generate assets using flutter_gen (via build_runner)
+[group('flutter')]
+[group('flutter-gen')]
+flutter-gen:
+    @echo "{{BLUE}}\c"
+    fvm dart run build_runner build --delete-conflicting-outputs
+    @echo "{{NORMAL}}\c"
+

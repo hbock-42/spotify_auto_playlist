@@ -1,21 +1,68 @@
 <!--ts-->
 * [spotify_auto_playlist](#spotify_auto_playlist)
    * [Getting Started](#getting-started)
+      * [Prerequisites](#prerequisites)
+      * [Installation](#installation)
+   * [Asset Management](#asset-management)
+      * [Generating Assets](#generating-assets)
+      * [Usage](#usage)
 <!--te-->
 
 # spotify_auto_playlist
 
-A new Flutter project.
+A Flutter application that analyzes your Spotify playlists using LLM and creates auto-generated playlists.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project uses Flutter with Clean Architecture principles and several productivity tools:
 
-A few resources to get you started if this is your first Flutter project:
+- **Flutter Version**: 3.32.5 (managed via FVM)
+- **State Management**: Riverpod with Flutter Hooks
+- **Asset Management**: flutter_gen for type-safe asset access
+- **Build System**: Just for task automation
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Prerequisites
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter SDK 3.32.5 (install via FVM)
+- Just command runner
+- Dart/Flutter development environment
+
+### Installation
+
+1. Install dependencies:
+   ```bash
+   just flutter pub get
+   ```
+
+2. Generate assets:
+   ```bash
+   just flutter-gen
+   ```
+
+3. Run the application:
+   ```bash
+   just flutter run
+   ```
+
+## Asset Management
+
+This project uses [flutter_gen](https://pub.dev/packages/flutter_gen) for type-safe asset management.
+
+### Generating Assets
+
+After adding new assets to `pubspec.yaml`, run:
+```bash
+just flutter-gen
+# or
+just fg
+```
+
+This will generate type-safe asset classes in `lib/gen/` directory.
+
+### Usage
+
+Access your assets through generated classes:
+```dart
+// For assets in assets/config/
+Assets.config.configLocal  // Returns the asset path
+```

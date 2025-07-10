@@ -7,24 +7,42 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:spotify_auto_playlist/infrastructure/services/config_service.dart';
 import 'package:spotify_auto_playlist/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('App loads with config', (WidgetTester tester) async {
+    final config = AppConfig(
+      app: const AppInfo(
+        name: 'Test App',
+        version: '1.0.0',
+        environment: 'test',
+      ),
+      spotify: const SpotifyConfig(
+        redirectUri: 'http://localhost:8080/callback',
+        scopes: ['playlist-read-private'],
+      ),
+      api: const ApiConfig(
+        baseUrl: 'https://api.spotify.com/v1',
+        tokenUrl: 'https://accounts.spotify.com/api/token',
+        authorizeUrl: 'https://accounts.spotify.com/authorize',
+      ),
+      features: const FeaturesConfig(
+        enableLogging: true,
+        maxPlaylistAnalysis: 10,
+        defaultPlaylistPrefix: 'auto',
+      ),
+    );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.pumpWidget(
+      ProviderScope(
+        child: SpotifyAutoPlaylistApp(config: config),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('Welcome to Spotify Auto Playlist'), findsOneWidget);
+    expect(find.byIcon(Icons.music_note), findsOneWidget);
   });
 }

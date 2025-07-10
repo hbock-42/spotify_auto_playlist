@@ -16,6 +16,9 @@ dependencies:
   logger: ^2.6.0
   dio: ^5.8.0+1
   fpdart: ^1.1.1
+  freezed_annotation: ^3.1.0
+  json_annotation: ^4.9.0
+  flutter_gen: ^5.10.0
 
 dev_dependencies:
   flutter_test:
@@ -27,7 +30,25 @@ dev_dependencies:
   riverpod_lint: ^2.6.5
   mocktail: ^1.0.4
   mocktail_image_network: ^1.2.0
+  json_serializable: ^6.9.5
+  freezed: ^3.1.0
+  build_runner: ^2.5.4
+  flutter_gen_runner: ^5.10.0
 
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/config/
+    - assets/images/
+
+flutter_gen:
+  assets:
+    enabled: true
+    outputs:
+      style: dot-delimiter
+
+  output: lib/gen/
+  line_length: 100
+

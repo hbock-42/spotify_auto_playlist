@@ -21,6 +21,7 @@
       * [Code Quality](#code-quality)
       * [Logging Strategy](#logging-strategy)
       * [HTTP Client (Dio)](#http-client-dio)
+      * [Asset Management (flutter_gen)](#asset-management-flutter_gen)
       * [Testing Standards](#testing-standards)
          * [General Testing Practices](#general-testing-practices)
          * [Widget Testing](#widget-testing)
@@ -83,6 +84,11 @@ just flutter analyze
 
 # Format code
 just dart format .
+
+# Generate assets using flutter_gen
+just flutter-gen
+# or
+just fg
 ```
 
 ### Dependency Management
@@ -95,6 +101,16 @@ just flutter pub upgrade
 
 # Check outdated packages
 just flutter pub outdated
+
+# Add new dependencies
+just flutter pub add [dependency_name]           # Normal dependency
+just flutter pub add dev:[dependency_name]       # Dev dependency
+
+# Add multiple dependencies (mix of normal and dev)
+just flutter pub add \
+  dev:[dependency_1_name] \
+  [dependency_2_name] \
+  dev:[dependency_3_name]
 ```
 
 ## Project Architecture
@@ -135,6 +151,7 @@ This project follows **Clean Architecture** principles with clear separation of 
 - **logger** (^2.6.0): Structured logging for debugging and monitoring
 - **dio** (^5.8.0+1): HTTP client for API requests and network operations
 - **fpdart** (^1.1.1): Functional programming patterns for error handling
+- **flutter_gen** (^5.10.0): Type-safe asset management with code generation
 
 ### Development Dependencies
 - **flutter_lints** (^6.0.0): Official Flutter linting rules
@@ -194,6 +211,15 @@ This project follows **Clean Architecture** principles with clear separation of 
   - Error handling and retry logic
 - Create a centralized Dio instance with proper configuration
 - Handle network errors gracefully using fpdart's Either pattern
+
+### Asset Management (flutter_gen)
+- Use `flutter_gen` for type-safe asset management with code generation
+- Configure flutter_gen in `pubspec.yaml` to generate asset classes
+- Run `just flutter-gen` or `just fg` to generate asset classes after adding new assets
+- Generated files are located in `lib/gen/` directory
+- Access assets via generated classes: `Assets.config.configLocal`
+- Generated files should be committed to version control for type-safe asset access
+- Always regenerate assets when adding new files to the assets directory
 
 ### Testing Standards
 
@@ -259,3 +285,6 @@ This project is intended to be a Spotify auto playlist application but currently
 - **Always update TODO.md when a task is completed** - mark items as done with [x] and keep the file current
 - Automatically created playlist names should follow the format: `auto[criteria]` or `auto[criteria1 | criteria2]` for multiple criteria
 - **Remote documentation cache**: Important external docs are cached in `/remote-doc-knowledge-fetched-by-claude/` directory for future reference
+- Use flutter_gen for managing assets (https://pub.dev/packages/flutter_gen) - context7 mcp for up to date documentation
+
+```
