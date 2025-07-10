@@ -1,0 +1,33 @@
+name: spotify_auto_playlist
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_hooks: ^0.21.2
+  shadcn_ui: ^0.27.4
+  hooks_riverpod: ^2.6.1
+  logger: ^2.6.0
+  dio: ^5.8.0+1
+  fpdart: ^1.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  lint: ^2.8.0
+
+  flutter_lints: ^6.0.0
+  custom_lint: ^0.7.0
+  riverpod_lint: ^2.6.3
+  mocktail: ^1.0.4
+  mocktail_image_network: ^1.2.0
+
+
+flutter:
+  uses-material-design: true
