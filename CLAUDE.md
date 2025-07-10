@@ -258,3 +258,4 @@ This project is intended to be a Spotify auto playlist application but currently
 - When you are about to do a big task, use sequential-thinking mcp
 - **Always update TODO.md when a task is completed** - mark items as done with [x] and keep the file current
 - Automatically created playlist names should follow the format: `auto[criteria]` or `auto[criteria1 | criteria2]` for multiple criteria
+- **Remote documentation cache**: Important external docs are cached in `/remote-doc-knowledge-fetched-by-claude/` directory for future reference

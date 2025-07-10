@@ -18,9 +18,9 @@
 Create a Flutter application that analyzes Spotify playlists using LLM and automatically generates new playlists based on song characteristics.
 
 ## Phase 1: Project Setup & Authentication
-- [ ] Create Spotify App in Spotify Developer Dashboard
-  - [ ] Note down Client ID and redirect URI
-  - [ ] Configure OAuth scopes: `playlist-read-private`, `playlist-read-collaborative`, `playlist-modify-public`, `playlist-modify-private`
+- [x] Create Spotify App in Spotify Developer Dashboard
+  - [x] Note down Client ID and redirect URI
+  - [x] `Configure` OAuth scopes: `playlist-read-private`, `playlist-read-collaborative`, `playlist-modify-public`, `playlist-modify-private`
 - [ ] Set up environment configuration
   - [ ] Create .env file for API keys
   - [ ] Add .env to .gitignore
