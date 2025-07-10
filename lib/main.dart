@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'gen/assets.gen.dart';
 import 'infrastructure/services/config_service.dart';
@@ -41,13 +42,26 @@ class SpotifyAutoPlaylistApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
-      title: config.app.name,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        useMaterial3: true,
+    return ShadApp.custom(
+      themeMode: ThemeMode.system,
+      theme: ShadThemeData(
+        brightness: Brightness.light,
+        colorScheme: const ShadGreenColorScheme.light(),
       ),
-      home: const HomePage(),
+      darkTheme: ShadThemeData(
+        brightness: Brightness.dark,
+        colorScheme: const ShadGreenColorScheme.dark(),
+      ),
+      appBuilder: (context) {
+        return MaterialApp(
+          title: config.app.name,
+          theme: Theme.of(context),
+          home: const HomePage(),
+          builder: (context, child) {
+            return ShadAppBuilder(child: child!);
+          },
+        );
+      },
     );
   }
 }
@@ -57,44 +71,66 @@ class ErrorApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Configuration Error',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-        useMaterial3: true,
+    return ShadApp.custom(
+      themeMode: ThemeMode.system,
+      theme: ShadThemeData(
+        brightness: Brightness.light,
+        colorScheme: const ShadRedColorScheme.light(),
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Configuration Error'),
-          backgroundColor: Colors.red,
-        ),
-        body: const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.error_outline,
-                size: 64,
-                color: Colors.red,
-              ),
-              SizedBox(height: 16),
-              Text(
-                'Failed to load configuration',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 8),
-              Text(
-                'Please check the configuration file',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
+      darkTheme: ShadThemeData(
+        brightness: Brightness.dark,
+        colorScheme: const ShadRedColorScheme.dark(),
+      ),
+      appBuilder: (context) {
+        return MaterialApp(
+          title: 'Configuration Error',
+          theme: Theme.of(context),
+          home: const ErrorPage(),
+          builder: (context, child) {
+            return ShadAppBuilder(child: child!);
+          },
+        );
+      },
+    );
+  }
+}
+
+class ErrorPage extends StatelessWidget {
+  const ErrorPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ShadTheme.of(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Configuration Error',
+          style: theme.textTheme.h4.copyWith(
+            color: theme.colorScheme.destructiveForeground,
           ),
+        ),
+        backgroundColor: theme.colorScheme.destructive,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              LucideIcons.triangleAlert,
+              size: 64,
+              color: theme.colorScheme.destructive,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Failed to load configuration',
+              style: theme.textTheme.h2,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Please check the configuration file',
+              style: theme.textTheme.muted,
+            ),
+          ],
         ),
       ),
     );
@@ -106,35 +142,36 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ShadTheme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Spotify Auto Playlist'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(
+          'Spotify Auto Playlist',
+          style: theme.textTheme.h4.copyWith(
+            color: theme.colorScheme.primaryForeground,
+          ),
+        ),
+        backgroundColor: theme.colorScheme.primary,
+        foregroundColor: theme.colorScheme.primaryForeground,
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.music_note,
+              LucideIcons.music,
               size: 64,
-              color: Colors.green,
+              color: theme.colorScheme.primary,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               'Welcome to Spotify Auto Playlist',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: theme.textTheme.h2,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               'Create automatic playlists based on your preferences',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
+              style: theme.textTheme.muted,
             ),
           ],
         ),
