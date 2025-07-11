@@ -162,6 +162,7 @@ lib/
 - **flutter_hooks** (^0.21.2): React-style hooks for Flutter, enabling functional widget patterns
 - **hooks_riverpod** (^2.6.1): State management solution combining Riverpod with Flutter Hooks
 - **shadcn_ui** (^0.27.4): UI component library for consistent design
+- **go_router** (^16.0.0): Declarative routing package for Flutter
 - **logger** (^2.6.0): Structured logging for debugging and monitoring
 - **dio** (^5.8.0+1): HTTP client for API requests and network operations
 - **fpdart** (^1.1.1): Functional programming patterns for error handling

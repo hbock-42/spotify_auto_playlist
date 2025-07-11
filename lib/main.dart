@@ -5,6 +5,7 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'core/config/config_loader.dart';
 import 'core/providers/core_providers.dart';
+import 'core/router/app_router.dart';
 import 'gen/assets.gen.dart';
 
 final logger = Logger();
@@ -45,6 +46,8 @@ class SpotifyAutoPlaylistApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final config = ref.watch(configProvider);
+    final router = ref.watch(routerProvider);
+    
     return ShadApp.custom(
       themeMode: ThemeMode.system,
       theme: ShadThemeData(
@@ -56,10 +59,10 @@ class SpotifyAutoPlaylistApp extends ConsumerWidget {
         colorScheme: const ShadGreenColorScheme.dark(),
       ),
       appBuilder: (context) {
-        return MaterialApp(
+        return MaterialApp.router(
           title: config.app.name,
           theme: Theme.of(context),
-          home: const HomePage(),
+          routerConfig: router,
           builder: (context, child) {
             return ShadAppBuilder(child: child!);
           },
@@ -140,45 +143,3 @@ class ErrorPage extends StatelessWidget {
   }
 }
 
-class HomePage extends ConsumerWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final theme = ShadTheme.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Spotify Auto Playlist',
-          style: theme.textTheme.h4.copyWith(
-            color: theme.colorScheme.primaryForeground,
-          ),
-        ),
-        backgroundColor: theme.colorScheme.primary,
-        foregroundColor: theme.colorScheme.primaryForeground,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              LucideIcons.music,
-              size: 64,
-              color: theme.colorScheme.primary,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Welcome to Spotify Auto Playlist',
-              style: theme.textTheme.h2,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Create automatic playlists based on your preferences',
-              style: theme.textTheme.muted,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
