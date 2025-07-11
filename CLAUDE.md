@@ -187,6 +187,7 @@ lib/
 - **Small widgets should be pure**: Accept data through constructor arguments only
 - **Avoid fetching state in small widgets**: State should be fetched at the screen/page level and passed down
 - **Keep widgets focused**: Each widget should have a single responsibility
+- **No _buildXXXX methods**: Create proper widgets instead of _buildXXXX helper methods
 
 ### Error Handling
 - **No try-catch blocks outside data layer**: All external calls and error-prone operations should be wrapped in the feature's data layer

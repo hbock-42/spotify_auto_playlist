@@ -3,11 +3,17 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
+import '../providers/auth_providers.dart';
+import '../states/auth_state.dart';
+import '../notifiers/auth_notifier.dart';
+
 class AuthScreen extends HookConsumerWidget {
   const AuthScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authNotifierProvider);
+    final authNotifier = ref.read(authNotifierProvider.notifier);
     final theme = ShadTheme.of(context);
 
     return Scaffold(
@@ -47,22 +53,7 @@ class AuthScreen extends HookConsumerWidget {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 48),
-                  ShadButton(
-                    onPressed: () {
-                      // TODO: Implement actual Spotify authentication
-                      // For now, just show a placeholder
-                      _showComingSoonDialog(context);
-                    },
-                    size: ShadButtonSize.lg,
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(LucideIcons.music),
-                        SizedBox(width: 12),
-                        Text('Connect with Spotify'),
-                      ],
-                    ),
-                  ),
+                  AuthButton(authState: authState, authNotifier: authNotifier),
                   const SizedBox(height: 24),
                   Text(
                     'Your data is secure and we only access what you authorize.',
@@ -80,18 +71,145 @@ class AuthScreen extends HookConsumerWidget {
     );
   }
 
-  void _showComingSoonDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => ShadDialog(
-        title: const Text('Coming Soon'),
-        description: const Text(
-          'Spotify authentication is not yet implemented. This is just a demo of the UI flow.',
+}
+
+class AuthButton extends StatelessWidget {
+  const AuthButton({
+    super.key,
+    required this.authState,
+    required this.authNotifier,
+  });
+
+  final AuthState authState;
+  final AuthNotifier authNotifier;
+
+  @override
+  Widget build(BuildContext context) {
+    return authState.map(
+      initial: (_) => ConnectButton(authNotifier: authNotifier),
+      loading: (_) => const LoadingButton(),
+      authenticated: (authenticated) => AuthenticatedButton(authNotifier: authNotifier),
+      unauthenticated: (_) => ConnectButton(authNotifier: authNotifier),
+      error: (error) => Column(
+        children: [
+          ConnectButton(authNotifier: authNotifier),
+          const SizedBox(height: 16),
+          ErrorMessage(error: error.failure.toString()),
+        ],
+      ),
+    );
+  }
+}
+
+class ConnectButton extends StatelessWidget {
+  const ConnectButton({super.key, required this.authNotifier});
+
+  final AuthNotifier authNotifier;
+
+  @override
+  Widget build(BuildContext context) {
+    return ShadButton(
+      onPressed: () => authNotifier.signIn(),
+      size: ShadButtonSize.lg,
+      child: const Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(LucideIcons.music),
+          SizedBox(width: 12),
+          Text('Connect with Spotify'),
+        ],
+      ),
+    );
+  }
+}
+
+class LoadingButton extends StatelessWidget {
+  const LoadingButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ShadButton(
+      onPressed: null,
+      size: ShadButtonSize.lg,
+      child: const Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 16,
+            height: 16,
+            child: CircularProgressIndicator(strokeWidth: 2),
+          ),
+          SizedBox(width: 12),
+          Text('Connecting...'),
+        ],
+      ),
+    );
+  }
+}
+
+class AuthenticatedButton extends StatelessWidget {
+  const AuthenticatedButton({super.key, required this.authNotifier});
+
+  final AuthNotifier authNotifier;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ShadButton(
+          onPressed: () => context.go('/dashboard'),
+          size: ShadButtonSize.lg,
+          child: const Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(LucideIcons.check),
+              SizedBox(width: 12),
+              Text('Continue to Dashboard'),
+            ],
+          ),
         ),
-        actions: [
-          ShadButton.outline(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+        const SizedBox(height: 16),
+        ShadButton.outline(
+          onPressed: () => authNotifier.signOut(),
+          child: const Text('Disconnect'),
+        ),
+      ],
+    );
+  }
+}
+
+class ErrorMessage extends StatelessWidget {
+  const ErrorMessage({super.key, required this.error});
+
+  final String error;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = ShadTheme.of(context);
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.destructive.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: theme.colorScheme.destructive.withValues(alpha: 0.2),
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            LucideIcons.triangleAlert,
+            color: theme.colorScheme.destructive,
+            size: 16,
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              error,
+              style: theme.textTheme.small.copyWith(
+                color: theme.colorScheme.destructive,
+              ),
+            ),
           ),
         ],
       ),

@@ -119,6 +119,15 @@ Create a Flutter application that analyzes Spotify playlists using LLM and autom
 - [ ] Scheduled auto-updates
 - [ ] Export/import classification data
 
+## Future
+- [ ] Secure storage https://pub.dev/packages/flutter_secure_storage#configure-macos-version
+  - [x] macos 
+  - [ ] ios
+  - [ ] android
+  - [ ] linux
+  - [ ] web
+  - [ ] windows
+
 ## Technical Decisions Made
 - **Architecture**: Feature-Based Clean Architecture (3-layer: domain, data, presentation)
 - **Organization**: Feature-first structure with shared core infrastructure

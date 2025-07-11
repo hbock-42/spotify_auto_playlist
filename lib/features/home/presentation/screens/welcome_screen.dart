@@ -19,11 +19,11 @@ class WelcomeScreen extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Spacer(),
-                  _buildHeader(context),
+                  const WelcomeHeader(),
                   const SizedBox(height: 48),
-                  _buildActionButtons(context),
+                  const WelcomeActionButtons(),
                   const SizedBox(height: 48),
-                  _buildFeatureHighlights(context),
+                  const WelcomeFeatureHighlights(),
                   const Spacer(flex: 2),
                 ],
               ),
@@ -34,7 +34,13 @@ class WelcomeScreen extends HookConsumerWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+}
+
+class WelcomeHeader extends StatelessWidget {
+  const WelcomeHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     final theme = ShadTheme.of(context);
 
     return Column(
@@ -61,8 +67,13 @@ class WelcomeScreen extends HookConsumerWidget {
       ],
     );
   }
+}
 
-  Widget _buildActionButtons(BuildContext context) {
+class WelcomeActionButtons extends StatelessWidget {
+  const WelcomeActionButtons({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         ShadButton(
@@ -93,8 +104,13 @@ class WelcomeScreen extends HookConsumerWidget {
       ],
     );
   }
+}
 
-  Widget _buildFeatureHighlights(BuildContext context) {
+class WelcomeFeatureHighlights extends StatelessWidget {
+  const WelcomeFeatureHighlights({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     final theme = ShadTheme.of(context);
 
     final features = [
