@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'config_service.dart';
+part of 'config_loader.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -628,7 +628,7 @@ as String,
 /// @nodoc
 mixin _$SpotifyConfig {
 
- String get redirectUri; List<String> get scopes;
+ String get clientId; String get redirectUri; String? get redirectUriWeb; List<String> get scopes;
 /// Create a copy of SpotifyConfig
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -641,16 +641,16 @@ $SpotifyConfigCopyWith<SpotifyConfig> get copyWith => _$SpotifyConfigCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SpotifyConfig&&(identical(other.redirectUri, redirectUri) || other.redirectUri == redirectUri)&&const DeepCollectionEquality().equals(other.scopes, scopes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SpotifyConfig&&(identical(other.clientId, clientId) || other.clientId == clientId)&&(identical(other.redirectUri, redirectUri) || other.redirectUri == redirectUri)&&(identical(other.redirectUriWeb, redirectUriWeb) || other.redirectUriWeb == redirectUriWeb)&&const DeepCollectionEquality().equals(other.scopes, scopes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,redirectUri,const DeepCollectionEquality().hash(scopes));
+int get hashCode => Object.hash(runtimeType,clientId,redirectUri,redirectUriWeb,const DeepCollectionEquality().hash(scopes));
 
 @override
 String toString() {
-  return 'SpotifyConfig(redirectUri: $redirectUri, scopes: $scopes)';
+  return 'SpotifyConfig(clientId: $clientId, redirectUri: $redirectUri, redirectUriWeb: $redirectUriWeb, scopes: $scopes)';
 }
 
 
@@ -661,7 +661,7 @@ abstract mixin class $SpotifyConfigCopyWith<$Res>  {
   factory $SpotifyConfigCopyWith(SpotifyConfig value, $Res Function(SpotifyConfig) _then) = _$SpotifyConfigCopyWithImpl;
 @useResult
 $Res call({
- String redirectUri, List<String> scopes
+ String clientId, String redirectUri, String? redirectUriWeb, List<String> scopes
 });
 
 
@@ -678,10 +678,12 @@ class _$SpotifyConfigCopyWithImpl<$Res>
 
 /// Create a copy of SpotifyConfig
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? redirectUri = null,Object? scopes = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? clientId = null,Object? redirectUri = null,Object? redirectUriWeb = freezed,Object? scopes = null,}) {
   return _then(_self.copyWith(
-redirectUri: null == redirectUri ? _self.redirectUri : redirectUri // ignore: cast_nullable_to_non_nullable
-as String,scopes: null == scopes ? _self.scopes : scopes // ignore: cast_nullable_to_non_nullable
+clientId: null == clientId ? _self.clientId : clientId // ignore: cast_nullable_to_non_nullable
+as String,redirectUri: null == redirectUri ? _self.redirectUri : redirectUri // ignore: cast_nullable_to_non_nullable
+as String,redirectUriWeb: freezed == redirectUriWeb ? _self.redirectUriWeb : redirectUriWeb // ignore: cast_nullable_to_non_nullable
+as String?,scopes: null == scopes ? _self.scopes : scopes // ignore: cast_nullable_to_non_nullable
 as List<String>,
   ));
 }
@@ -767,10 +769,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String redirectUri,  List<String> scopes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String clientId,  String redirectUri,  String? redirectUriWeb,  List<String> scopes)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SpotifyConfig() when $default != null:
-return $default(_that.redirectUri,_that.scopes);case _:
+return $default(_that.clientId,_that.redirectUri,_that.redirectUriWeb,_that.scopes);case _:
   return orElse();
 
 }
@@ -788,10 +790,10 @@ return $default(_that.redirectUri,_that.scopes);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String redirectUri,  List<String> scopes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String clientId,  String redirectUri,  String? redirectUriWeb,  List<String> scopes)  $default,) {final _that = this;
 switch (_that) {
 case _SpotifyConfig():
-return $default(_that.redirectUri,_that.scopes);case _:
+return $default(_that.clientId,_that.redirectUri,_that.redirectUriWeb,_that.scopes);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -808,10 +810,10 @@ return $default(_that.redirectUri,_that.scopes);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String redirectUri,  List<String> scopes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String clientId,  String redirectUri,  String? redirectUriWeb,  List<String> scopes)?  $default,) {final _that = this;
 switch (_that) {
 case _SpotifyConfig() when $default != null:
-return $default(_that.redirectUri,_that.scopes);case _:
+return $default(_that.clientId,_that.redirectUri,_that.redirectUriWeb,_that.scopes);case _:
   return null;
 
 }
@@ -823,10 +825,12 @@ return $default(_that.redirectUri,_that.scopes);case _:
 @JsonSerializable()
 
 class _SpotifyConfig implements SpotifyConfig {
-  const _SpotifyConfig({required this.redirectUri, required final  List<String> scopes}): _scopes = scopes;
+  const _SpotifyConfig({required this.clientId, required this.redirectUri, this.redirectUriWeb, required final  List<String> scopes}): _scopes = scopes;
   factory _SpotifyConfig.fromJson(Map<String, dynamic> json) => _$SpotifyConfigFromJson(json);
 
+@override final  String clientId;
 @override final  String redirectUri;
+@override final  String? redirectUriWeb;
  final  List<String> _scopes;
 @override List<String> get scopes {
   if (_scopes is EqualUnmodifiableListView) return _scopes;
@@ -848,16 +852,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SpotifyConfig&&(identical(other.redirectUri, redirectUri) || other.redirectUri == redirectUri)&&const DeepCollectionEquality().equals(other._scopes, _scopes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SpotifyConfig&&(identical(other.clientId, clientId) || other.clientId == clientId)&&(identical(other.redirectUri, redirectUri) || other.redirectUri == redirectUri)&&(identical(other.redirectUriWeb, redirectUriWeb) || other.redirectUriWeb == redirectUriWeb)&&const DeepCollectionEquality().equals(other._scopes, _scopes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,redirectUri,const DeepCollectionEquality().hash(_scopes));
+int get hashCode => Object.hash(runtimeType,clientId,redirectUri,redirectUriWeb,const DeepCollectionEquality().hash(_scopes));
 
 @override
 String toString() {
-  return 'SpotifyConfig(redirectUri: $redirectUri, scopes: $scopes)';
+  return 'SpotifyConfig(clientId: $clientId, redirectUri: $redirectUri, redirectUriWeb: $redirectUriWeb, scopes: $scopes)';
 }
 
 
@@ -868,7 +872,7 @@ abstract mixin class _$SpotifyConfigCopyWith<$Res> implements $SpotifyConfigCopy
   factory _$SpotifyConfigCopyWith(_SpotifyConfig value, $Res Function(_SpotifyConfig) _then) = __$SpotifyConfigCopyWithImpl;
 @override @useResult
 $Res call({
- String redirectUri, List<String> scopes
+ String clientId, String redirectUri, String? redirectUriWeb, List<String> scopes
 });
 
 
@@ -885,10 +889,12 @@ class __$SpotifyConfigCopyWithImpl<$Res>
 
 /// Create a copy of SpotifyConfig
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? redirectUri = null,Object? scopes = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? clientId = null,Object? redirectUri = null,Object? redirectUriWeb = freezed,Object? scopes = null,}) {
   return _then(_SpotifyConfig(
-redirectUri: null == redirectUri ? _self.redirectUri : redirectUri // ignore: cast_nullable_to_non_nullable
-as String,scopes: null == scopes ? _self._scopes : scopes // ignore: cast_nullable_to_non_nullable
+clientId: null == clientId ? _self.clientId : clientId // ignore: cast_nullable_to_non_nullable
+as String,redirectUri: null == redirectUri ? _self.redirectUri : redirectUri // ignore: cast_nullable_to_non_nullable
+as String,redirectUriWeb: freezed == redirectUriWeb ? _self.redirectUriWeb : redirectUriWeb // ignore: cast_nullable_to_non_nullable
+as String?,scopes: null == scopes ? _self._scopes : scopes // ignore: cast_nullable_to_non_nullable
 as List<String>,
   ));
 }

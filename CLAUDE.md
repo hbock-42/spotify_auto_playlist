@@ -8,8 +8,9 @@
       * [Testing and Quality Checks](#testing-and-quality-checks)
       * [Dependency Management](#dependency-management)
    * [Project Architecture](#project-architecture)
-      * [Layer Structure](#layer-structure)
+      * [Architecture Principles](#architecture-principles)
       * [Folder Structure](#folder-structure)
+      * [Key Architectural Decisions](#key-architectural-decisions)
    * [Dependencies and Libraries](#dependencies-and-libraries)
       * [Core Dependencies](#core-dependencies)
       * [Development Dependencies](#development-dependencies)
@@ -115,32 +116,45 @@ just flutter pub add \
 
 ## Project Architecture
 
-This project follows **Clean Architecture** principles with clear separation of concerns across layers:
+This project follows a **Feature-Based Clean Architecture** approach that balances maintainability with development speed. It's a hybrid approach that combines Clean Architecture principles with pragmatic simplifications.
 
-### Layer Structure
-- **Domain Layer**: Business logic, entities, and use cases
-- **Application Layer**: State management, providers, and application services
-- **Infrastructure Layer**: External services, APIs, data sources
-- **Presentation Layer**: UI components, screens, and widgets
+### Architecture Principles
+- **Feature-First Organization**: Code is organized by features rather than layers
+- **Clean Architecture Foundations**: Domain entities, repository pattern, and dependency injection
+- **Pragmatic Simplification**: Reduced abstraction layers while maintaining testability
+- **Functional Error Handling**: Using fpdart for robust error management
 
 ### Folder Structure
-- **lib/**
-  - **domain/**: Core business logic
-    - **entities/**: Business entities
-    - **repositories/**: Repository interfaces
-    - **use_cases/**: Business use cases
-    - **failures/**: Domain-specific failures
-  - **application/**: State management and providers
-    - **providers/**: Riverpod providers
-    - **notifiers/**: State notifiers
-  - **infrastructure/**: External integrations
-    - **repositories/**: Repository implementations
-    - **data_sources/**: Remote and local data sources
-    - **services/**: External service integrations
-  - **presentation/**: UI layer
-    - **screens/**: Full screen widgets
-    - **widgets/**: Reusable UI components
-    - **router/**: Navigation configuration
+```
+lib/
+├── core/
+│   ├── network/           # HTTP clients, interceptors
+│   ├── providers/         # Global Riverpod providers
+│   ├── config/           # Configuration management
+│   └── utils/            # Shared utilities
+├── features/
+│   ├── auth/
+│   │   ├── domain/       # Entities, failures, repository interfaces
+│   │   ├── data/         # Repository implementations, data sources
+│   │   └── presentation/ # UI components, screens, providers
+│   ├── spotify/
+│   │   ├── domain/       # Playlist, track entities
+│   │   ├── data/         # Spotify API client, repositories
+│   │   └── presentation/ # Playlist screens, widgets
+│   └── analysis/
+│       ├── domain/       # Classification entities, business logic
+│       ├── data/         # LLM integration, data processing
+│       └── presentation/ # Analysis screens, progress indicators
+└── shared/
+    └── widgets/          # Common UI components
+```
+
+### Key Architectural Decisions
+- **Feature Boundaries**: Each feature is self-contained with its own domain, data, and presentation layers
+- **Simplified Layers**: Combined application + infrastructure into `data/` layer to reduce boilerplate
+- **Repository Pattern**: Maintained for testability and API abstraction
+- **Dependency Injection**: Using Riverpod for clean dependency management
+- **Error Handling**: Functional approach with fpdart's Either pattern throughout the stack
 
 ## Dependencies and Libraries
 
@@ -174,11 +188,13 @@ This project follows **Clean Architecture** principles with clear separation of 
 - **Keep widgets focused**: Each widget should have a single responsibility
 
 ### Error Handling
-- **No try-catch blocks outside infrastructure layer**: All external calls and error-prone operations should be wrapped in the infrastructure layer
+- **No try-catch blocks outside data layer**: All external calls and error-prone operations should be wrapped in the feature's data layer
 - **Use fpdart library** for functional error handling:
-  - Return `Either<Failure, Success>` from infrastructure layer
+  - Return `Either<Failure, Success>` from data layer (repositories, API clients)
+  - Define typed failures in domain layer for each feature
   - Propagate domain errors through the layers using fpdart
-  - Handle errors gracefully at the presentation layer
+  - Handle errors gracefully at the presentation layer with proper user feedback
+- **Feature-specific error handling**: Each feature defines its own failure types and error handling strategies
 
 ### Documentation and Dependencies
 - **Always verify library documentation**: Use context7 MCP to check the latest documentation for any library before implementation

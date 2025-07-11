@@ -5,7 +5,9 @@
     "environment": "local"
   },
   "spotify": {
-    "redirectUri": "http://localhost:8080/callback",
+    "clientId": "e813e35d216640cb9ec74a06c03a35d2",
+    "redirectUri": "spotifyautoplaylist://callback",
+    "redirectUriWeb": "http://localhost:8080/callback",
     "scopes": [
       "playlist-read-private",
       "playlist-read-collaborative",

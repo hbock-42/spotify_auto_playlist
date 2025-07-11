@@ -5,11 +5,11 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import 'package:spotify_auto_playlist/infrastructure/services/config_service.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:spotify_auto_playlist/core/config/config_loader.dart';
+import 'package:spotify_auto_playlist/core/providers/core_providers.dart';
 import 'package:spotify_auto_playlist/main.dart';
 
 void main() {
@@ -21,6 +21,7 @@ void main() {
         environment: 'test',
       ),
       spotify: const SpotifyConfig(
+        clientId: 'test_client_id',
         redirectUri: 'http://localhost:8080/callback',
         scopes: ['playlist-read-private'],
       ),
@@ -38,11 +39,16 @@ void main() {
 
     await tester.pumpWidget(
       ProviderScope(
-        child: SpotifyAutoPlaylistApp(config: config),
+        overrides: [
+          configProvider.overrideWithValue(config),
+        ],
+        child: const SpotifyAutoPlaylistApp(),
       ),
     );
 
+    await tester.pumpAndSettle();
+
     expect(find.text('Welcome to Spotify Auto Playlist'), findsOneWidget);
-    expect(find.byIcon(Icons.music_note), findsOneWidget);
+    expect(find.byIcon(LucideIcons.music), findsOneWidget);
   });
 }

@@ -26,25 +26,32 @@ Create a Flutter application that analyzes Spotify playlists using LLM and autom
   - [x] Add .env to .gitignore (already configured)
   - [x] Implement configuration service with freezed
   - [x] Add comprehensive tests for configuration validation
-- [ ] Implement Spotify OAuth2 authentication
-  - [ ] Create auth service with PKCE flow
-  - [ ] Handle redirect URLs for different platforms
-  - [ ] Implement token storage using flutter_secure_storage
-  - [ ] Handle token refresh logic
+  - [x] Migrate to Feature-Based Clean Architecture
+    - [x] Restructure project from layer-first to feature-first organization
+    - [x] Create core/ directory for shared infrastructure
+    - [x] Move auth code to features/auth/ directory
+    - [x] Implement proper dependency injection with Riverpod providers
+    - [x] Update ConfigService to ConfigLoader with provider-based config access
+    - [x] Fix broken tests after ConfigLoader refactoring
+- [x] Implement Spotify OAuth2 authentication
+  - [x] Create auth service with PKCE flow
+  - [x] Handle redirect URLs for different platforms
+  - [x] Implement token storage using flutter_secure_storage
+  - [x] Handle token refresh logic
 
 ## Phase 2: Spotify Integration
-- [ ] Create Spotify API service
-  - [ ] Set up Dio HTTP client with interceptors
-  - [ ] Implement error handling with fpdart
-- [ ] Implement playlist fetching
-  - [ ] GET /me/playlists endpoint
-  - [ ] Handle pagination
-- [ ] Implement track details fetching
-  - [ ] GET /playlists/{id}/tracks
-  - [ ] Include audio features if needed
-- [ ] Implement playlist creation
-  - [ ] POST /users/{user_id}/playlists
-  - [ ] POST /playlists/{id}/tracks
+- [x] Create Spotify API service
+  - [x] Set up Dio HTTP client with interceptors
+  - [x] Implement error handling with fpdart
+- [x] Implement playlist fetching
+  - [x] GET /me/playlists endpoint
+  - [x] Handle pagination
+- [x] Implement track details fetching
+  - [x] GET /playlists/{id}/tracks
+  - [x] Include audio features if needed
+- [x] Implement playlist creation
+  - [x] POST /users/{user_id}/playlists
+  - [x] POST /playlists/{id}/tracks
 
 ## Phase 3: LLM Integration
 - [ ] Choose and set up LLM service (OpenAI/Claude/etc)
@@ -113,12 +120,14 @@ Create a Flutter application that analyzes Spotify playlists using LLM and autom
 - [ ] Export/import classification data
 
 ## Technical Decisions Made
-- **Architecture**: Clean Architecture with separation of concerns
-- **State Management**: Riverpod (without code generation)
+- **Architecture**: Feature-Based Clean Architecture (3-layer: domain, data, presentation)
+- **Organization**: Feature-first structure with shared core infrastructure
+- **State Management**: Riverpod (without code generation) with proper dependency injection
 - **Error Handling**: fpdart for functional programming
 - **UI**: shadcn_ui components
 - **Authentication**: OAuth2 with PKCE
 - **Storage**: flutter_secure_storage for sensitive data
+- **Configuration**: Provider-based config injection instead of static access
 
 ## Notes
 - Always validate TODO completion before marking as done

@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'config_service.freezed.dart';
-part 'config_service.g.dart';
+part 'config_loader.freezed.dart';
+part 'config_loader.g.dart';
 
 @freezed
 abstract class AppConfig with _$AppConfig {
@@ -33,7 +33,9 @@ abstract class AppInfo with _$AppInfo {
 @freezed
 abstract class SpotifyConfig with _$SpotifyConfig {
   const factory SpotifyConfig({
+    required String clientId,
     required String redirectUri,
+    String? redirectUriWeb,
     required List<String> scopes,
   }) = _SpotifyConfig;
 
@@ -62,9 +64,7 @@ abstract class FeaturesConfig with _$FeaturesConfig {
   factory FeaturesConfig.fromJson(Map<String, dynamic> json) => _$FeaturesConfigFromJson(json);
 }
 
-class ConfigService {
-  static AppConfig? _config;
-
+class ConfigLoader {
   static Future<Either<String, AppConfig>> loadConfig({
     required String configFile,
   }) async {
@@ -90,7 +90,6 @@ class ConfigService {
         return left('Max playlist analysis must be greater than 0');
       }
 
-      _config = config;
       return right(config);
     } catch (e) {
       return left('Failed to load configuration: $e');
@@ -111,19 +110,5 @@ class ConfigService {
       }
     }
     return null;
-  }
-
-  static AppConfig get config {
-    if (_config == null) {
-      throw Exception('Configuration not loaded. Call loadConfig() first.');
-    }
-    return _config!;
-  }
-
-  static bool get isConfigLoaded => _config != null;
-
-  // For testing purposes only
-  static void reset() {
-    _config = null;
   }
 }

@@ -3,15 +3,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
+import 'core/config/config_loader.dart';
+import 'core/providers/core_providers.dart';
 import 'gen/assets.gen.dart';
-import 'infrastructure/services/config_service.dart';
 
 final logger = Logger();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final configResult = await ConfigService.loadConfig(
+  final configResult = await ConfigLoader.loadConfig(
     configFile: Assets.config.configLocal,
   );
 
@@ -28,7 +29,10 @@ void main() async {
       logger.i('Config loaded successfully: ${config.app.name} v${config.app.version}');
       runApp(
         ProviderScope(
-          child: SpotifyAutoPlaylistApp(config: config),
+          overrides: [
+            configProvider.overrideWithValue(config),
+          ],
+          child: const SpotifyAutoPlaylistApp(),
         ),
       );
     },
@@ -36,12 +40,11 @@ void main() async {
 }
 
 class SpotifyAutoPlaylistApp extends ConsumerWidget {
-  const SpotifyAutoPlaylistApp({super.key, required this.config});
-
-  final AppConfig config;
+  const SpotifyAutoPlaylistApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final config = ref.watch(configProvider);
     return ShadApp.custom(
       themeMode: ThemeMode.system,
       theme: ShadThemeData(

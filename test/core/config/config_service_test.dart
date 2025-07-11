@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:spotify_auto_playlist/infrastructure/services/config_service.dart';
+import 'package:spotify_auto_playlist/core/config/config_loader.dart';
 
 void main() {
   group('AppConfig', () {
@@ -14,6 +14,7 @@ void main() {
             'environment': 'test',
           },
           'spotify': {
+            'clientId': 'test_client_id',
             'redirectUri': 'http://localhost:8080/callback',
             'scopes': ['playlist-read-private', 'playlist-modify-public'],
           },
@@ -50,6 +51,7 @@ void main() {
         // Arrange
         final invalidConfig = {
           'spotify': {
+            'clientId': 'test_client_id',
             'redirectUri': 'http://localhost:8080/callback',
             'scopes': ['playlist-read-private'],
           },
@@ -80,6 +82,7 @@ void main() {
             'environment': 'test',
           },
           'spotify': {
+            'clientId': 'test_client_id',
             'redirectUri': 'http://localhost:8080/callback',
             'scopes': ['playlist-read-private'],
           },
@@ -109,6 +112,7 @@ void main() {
         final original = AppConfig(
           app: AppInfo(name: 'Test App', version: '1.0.0', environment: 'test'),
           spotify: SpotifyConfig(
+            clientId: 'test_client_id',
             redirectUri: 'http://localhost:8080/callback',
             scopes: ['playlist-read-private'],
           ),
@@ -142,6 +146,7 @@ void main() {
         final config1 = AppConfig(
           app: AppInfo(name: 'Test App', version: '1.0.0', environment: 'test'),
           spotify: SpotifyConfig(
+            clientId: 'test_client_id',
             redirectUri: 'http://localhost:8080/callback',
             scopes: ['playlist-read-private'],
           ),
@@ -160,6 +165,7 @@ void main() {
         final config2 = AppConfig(
           app: AppInfo(name: 'Test App', version: '1.0.0', environment: 'test'),
           spotify: SpotifyConfig(
+            clientId: 'test_client_id',
             redirectUri: 'http://localhost:8080/callback',
             scopes: ['playlist-read-private'],
           ),
@@ -182,37 +188,25 @@ void main() {
     });
   });
 
-  group('ConfigService', () {
-    setUp(() {
-      // Reset the static config before each test
-      ConfigService.reset();
-    });
-
-    test('should return false when config is not loaded', () {
-      // Assert
-      expect(ConfigService.isConfigLoaded, false);
-    });
-
-    test('should throw exception when accessing config before loading', () {
-      // Assert
-      expect(() => ConfigService.config, throwsException);
-    });
-
-    group('loadConfig validation', () {
-      test('should return error when scopes are empty', () async {
-        // This test would need a mock or special setup to test validation
-        // For now, we'll test the validation logic separately
-        final result = ConfigService.loadConfig(
+  group('ConfigLoader', () {
+    group('loadConfig', () {
+      test('should return error when config file does not exist', () async {
+        // Act
+        final result = await ConfigLoader.loadConfig(
           configFile: 'assets/config/non-existent.json',
         );
 
         // Assert
-        expect(await result, isA<Left>());
+        expect(result, isA<Left>());
+        result.fold(
+          (error) => expect(error, contains('Failed to load configuration')),
+          (config) => fail('Expected error but got success'),
+        );
       });
-    });
 
-    // Note: File loading tests are not included because they require
-    // Flutter widget testing environment to access assets.
-    // The validation logic is thoroughly tested above.
+      // Note: File loading tests with valid config are not included because they require
+      // Flutter widget testing environment to access assets.
+      // The validation logic is thoroughly tested above through AppConfig tests.
+    });
   });
 }

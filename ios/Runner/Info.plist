@@ -45,5 +45,16 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>spotifyautoplaylist.oauth</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>spotifyautoplaylist</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
