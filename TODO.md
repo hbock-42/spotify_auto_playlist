@@ -78,20 +78,20 @@ Create a Flutter application that analyzes Spotify playlists using LLM and autom
   - [x] Implement classification storage
 
 ## Phase 4: Core Logic
-- [ ] Create domain entities
-  - [ ] Playlist entity
-  - [ ] Track entity
-  - [ ] SongClassification entity
-  - [ ] PlaylistProposal entity
-- [ ] Implement song grouping algorithm
-  - [ ] Group by primary criteria
-  - [ ] Handle multi-criteria grouping
-- [ ] Generate playlist proposals
-  - [ ] Create naming convention: `auto[criteria1 | criteria2]`
-  - [ ] Calculate optimal playlist sizes
-- [ ] Handle user selections
-  - [ ] Track which proposals to create
-  - [ ] Batch playlist creation
+- [x] Create domain entities
+  - [x] Playlist entity
+  - [x] Track entity  
+  - [x] SongClassification entity
+  - [x] PlaylistProposal entity
+- [x] Implement song grouping algorithm
+  - [x] Group by primary criteria
+  - [x] Handle multi-criteria grouping
+- [x] Generate playlist proposals
+  - [x] Create naming convention: `auto[criteria1 | criteria2]`
+  - [x] Calculate optimal playlist sizes
+- [x] Handle user selections
+  - [x] Track which proposals to create
+  - [x] Batch playlist creation
 
 ## Phase 5: UI Implementation
 - [ ] Set up shadcn_ui components
