@@ -59,15 +59,15 @@ Create a Flutter application that analyzes Spotify playlists using LLM and autom
   - [x] Install Ollama on macOS (via .dmg installer)
   - [x] Pull and test Llama 3.1 8B model
   - [x] Verify API endpoint (localhost:11434) working
-- [ ] Create Flutter LLM service
-  - [ ] Set up Dio HTTP client for Ollama API
-  - [ ] Follow existing Spotify API patterns (error handling with fpdart)
-  - [ ] Implement basic song analysis endpoint
-- [ ] Design optimized song analysis approach
-  - [ ] Use Spotify metadata + audio features (no actual audio processing)
-  - [ ] Input: title, artist, genres, energy, danceability, valence, tempo, acousticness
-  - [ ] Output: structured JSON with mood, context, style classifications
-  - [ ] Target: 2-5 seconds per song (vs 50+ seconds with full analysis)
+- [x] Create Flutter LLM service
+  - [x] Set up Dio HTTP client for Ollama API
+  - [x] Follow existing Spotify API patterns (error handling with fpdart)
+  - [x] Implement basic song analysis endpoint
+- [x] Design optimized song analysis approach
+  - [x] Use Spotify metadata + audio features (no actual audio processing)
+  - [x] Input: title, artist, genres, energy, danceability, valence, tempo, acousticness
+  - [x] Output: structured JSON with mood, context, style classifications
+  - [x] Target: 2-5 seconds per song (vs 50+ seconds with full analysis)
 - [ ] Implement batch song analysis
   - [ ] Parallel processing (2-4 concurrent requests on M1 32GB)
   - [ ] Progress tracking and pause/resume functionality

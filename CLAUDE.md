@@ -305,3 +305,5 @@ This project is intended to be a Spotify auto playlist application but currently
 - **Remote documentation cache**: Important external docs are cached in `/remote-doc-knowledge-fetched-by-claude/` directory for future reference
 - Use flutter_gen for managing assets (https://pub.dev/packages/flutter_gen) - context7 mcp for up to date documentation
 - When setting the style of a Text widget, always use Shadcn inherited theme. You can modifying it if you want but use the copyWith method on it.
+- **Never modify a .freezed.dart file directly**
+- **Never modify a .g.dart file directly**
