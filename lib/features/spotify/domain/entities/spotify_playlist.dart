@@ -13,14 +13,13 @@ abstract class SpotifyPlaylist with _$SpotifyPlaylist {
     required String name,
     String? description,
     required SpotifyUser owner,
-    required bool public,
+    bool? public,
     required bool collaborative,
-    required int totalTracks,
     required String uri,
     required String href,
-    required List<SpotifyImage> images,
-    String? snapshotId,
-    List<SpotifyTrack>? tracks,
+    @Default([]) List<SpotifyImage> images,
+    @JsonKey(name: 'snapshot_id') String? snapshotId,
+    required SpotifyTracksRef tracks,
   }) = _SpotifyPlaylist;
 
   const SpotifyPlaylist._();
@@ -29,4 +28,15 @@ abstract class SpotifyPlaylist with _$SpotifyPlaylist {
 
   bool get hasImage => images.isNotEmpty;
   String? get imageUrl => hasImage ? images.first.url : null;
+  int? get totalTracks => tracks.total;
+}
+
+@freezed
+abstract class SpotifyTracksRef with _$SpotifyTracksRef {
+  const factory SpotifyTracksRef({
+    required String href,
+    required int total,
+  }) = _SpotifyTracksRef;
+
+  factory SpotifyTracksRef.fromJson(Map<String, dynamic> json) => _$SpotifyTracksRefFromJson(json);
 }

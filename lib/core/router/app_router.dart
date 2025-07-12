@@ -7,6 +7,10 @@ import '../../features/auth/presentation/screens/auth_screen.dart';
 import '../../features/home/presentation/screens/dashboard_screen.dart';
 import '../../features/home/presentation/screens/demo_screen.dart';
 import '../../features/home/presentation/screens/welcome_screen.dart';
+import '../../features/spotify/presentation/screens/playlist_selection_screen.dart';
+import '../../features/analysis/presentation/screens/analysis_progress_screen.dart';
+import '../../features/analysis/presentation/screens/playlist_proposals_screen.dart';
+import '../../features/analysis/presentation/screens/results_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authNotifierProvider);
@@ -50,6 +54,28 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/dashboard',
         builder: (context, state) => const DashboardScreen(),
+      ),
+      GoRoute(
+        path: '/select-playlist',
+        builder: (context, state) => const PlaylistSelectionScreen(),
+      ),
+      GoRoute(
+        path: '/analyze',
+        builder: (context, state) {
+          final playlistId = state.uri.queryParameters['playlistId'];
+          if (playlistId == null) {
+            throw Exception('Playlist ID is required');
+          }
+          return AnalysisProgressScreen(playlistId: playlistId);
+        },
+      ),
+      GoRoute(
+        path: '/proposals',
+        builder: (context, state) => const PlaylistProposalsScreen(),
+      ),
+      GoRoute(
+        path: '/results',
+        builder: (context, state) => const ResultsScreen(),
       ),
     ],
   );

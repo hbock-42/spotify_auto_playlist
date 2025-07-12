@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Playlist {
 
- String get id; String get name; String get description; String get ownerId; String get ownerDisplayName; bool get isPublic; bool get isCollaborative; int get totalTracks; List<Track> get tracks; String? get imageUrl; String get externalUrl; DateTime get createdAt; DateTime? get modifiedAt;
+ String get id; String get name; String get description; String get ownerId; String get ownerDisplayName; bool? get isPublic; bool get isCollaborative; int? get totalTracks; List<Track> get tracks; String? get imageUrl; String get externalUrl; DateTime get createdAt; DateTime? get modifiedAt;
 /// Create a copy of Playlist
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $PlaylistCopyWith<$Res>  {
   factory $PlaylistCopyWith(Playlist value, $Res Function(Playlist) _then) = _$PlaylistCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, String description, String ownerId, String ownerDisplayName, bool isPublic, bool isCollaborative, int totalTracks, List<Track> tracks, String? imageUrl, String externalUrl, DateTime createdAt, DateTime? modifiedAt
+ String id, String name, String description, String ownerId, String ownerDisplayName, bool? isPublic, bool isCollaborative, int? totalTracks, List<Track> tracks, String? imageUrl, String externalUrl, DateTime createdAt, DateTime? modifiedAt
 });
 
 
@@ -65,17 +65,17 @@ class _$PlaylistCopyWithImpl<$Res>
 
 /// Create a copy of Playlist
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = null,Object? ownerId = null,Object? ownerDisplayName = null,Object? isPublic = null,Object? isCollaborative = null,Object? totalTracks = null,Object? tracks = null,Object? imageUrl = freezed,Object? externalUrl = null,Object? createdAt = null,Object? modifiedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = null,Object? ownerId = null,Object? ownerDisplayName = null,Object? isPublic = freezed,Object? isCollaborative = null,Object? totalTracks = freezed,Object? tracks = null,Object? imageUrl = freezed,Object? externalUrl = null,Object? createdAt = null,Object? modifiedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
 as String,ownerDisplayName: null == ownerDisplayName ? _self.ownerDisplayName : ownerDisplayName // ignore: cast_nullable_to_non_nullable
-as String,isPublic: null == isPublic ? _self.isPublic : isPublic // ignore: cast_nullable_to_non_nullable
-as bool,isCollaborative: null == isCollaborative ? _self.isCollaborative : isCollaborative // ignore: cast_nullable_to_non_nullable
-as bool,totalTracks: null == totalTracks ? _self.totalTracks : totalTracks // ignore: cast_nullable_to_non_nullable
-as int,tracks: null == tracks ? _self.tracks : tracks // ignore: cast_nullable_to_non_nullable
+as String,isPublic: freezed == isPublic ? _self.isPublic : isPublic // ignore: cast_nullable_to_non_nullable
+as bool?,isCollaborative: null == isCollaborative ? _self.isCollaborative : isCollaborative // ignore: cast_nullable_to_non_nullable
+as bool,totalTracks: freezed == totalTracks ? _self.totalTracks : totalTracks // ignore: cast_nullable_to_non_nullable
+as int?,tracks: null == tracks ? _self.tracks : tracks // ignore: cast_nullable_to_non_nullable
 as List<Track>,imageUrl: freezed == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
 as String?,externalUrl: null == externalUrl ? _self.externalUrl : externalUrl // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -165,7 +165,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String description,  String ownerId,  String ownerDisplayName,  bool isPublic,  bool isCollaborative,  int totalTracks,  List<Track> tracks,  String? imageUrl,  String externalUrl,  DateTime createdAt,  DateTime? modifiedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String description,  String ownerId,  String ownerDisplayName,  bool? isPublic,  bool isCollaborative,  int? totalTracks,  List<Track> tracks,  String? imageUrl,  String externalUrl,  DateTime createdAt,  DateTime? modifiedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Playlist() when $default != null:
 return $default(_that.id,_that.name,_that.description,_that.ownerId,_that.ownerDisplayName,_that.isPublic,_that.isCollaborative,_that.totalTracks,_that.tracks,_that.imageUrl,_that.externalUrl,_that.createdAt,_that.modifiedAt);case _:
@@ -186,7 +186,7 @@ return $default(_that.id,_that.name,_that.description,_that.ownerId,_that.ownerD
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String description,  String ownerId,  String ownerDisplayName,  bool isPublic,  bool isCollaborative,  int totalTracks,  List<Track> tracks,  String? imageUrl,  String externalUrl,  DateTime createdAt,  DateTime? modifiedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String description,  String ownerId,  String ownerDisplayName,  bool? isPublic,  bool isCollaborative,  int? totalTracks,  List<Track> tracks,  String? imageUrl,  String externalUrl,  DateTime createdAt,  DateTime? modifiedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Playlist():
 return $default(_that.id,_that.name,_that.description,_that.ownerId,_that.ownerDisplayName,_that.isPublic,_that.isCollaborative,_that.totalTracks,_that.tracks,_that.imageUrl,_that.externalUrl,_that.createdAt,_that.modifiedAt);case _:
@@ -206,7 +206,7 @@ return $default(_that.id,_that.name,_that.description,_that.ownerId,_that.ownerD
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String description,  String ownerId,  String ownerDisplayName,  bool isPublic,  bool isCollaborative,  int totalTracks,  List<Track> tracks,  String? imageUrl,  String externalUrl,  DateTime createdAt,  DateTime? modifiedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String description,  String ownerId,  String ownerDisplayName,  bool? isPublic,  bool isCollaborative,  int? totalTracks,  List<Track> tracks,  String? imageUrl,  String externalUrl,  DateTime createdAt,  DateTime? modifiedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Playlist() when $default != null:
 return $default(_that.id,_that.name,_that.description,_that.ownerId,_that.ownerDisplayName,_that.isPublic,_that.isCollaborative,_that.totalTracks,_that.tracks,_that.imageUrl,_that.externalUrl,_that.createdAt,_that.modifiedAt);case _:
@@ -229,9 +229,9 @@ class _Playlist implements Playlist {
 @override final  String description;
 @override final  String ownerId;
 @override final  String ownerDisplayName;
-@override final  bool isPublic;
+@override final  bool? isPublic;
 @override final  bool isCollaborative;
-@override final  int totalTracks;
+@override final  int? totalTracks;
  final  List<Track> _tracks;
 @override List<Track> get tracks {
   if (_tracks is EqualUnmodifiableListView) return _tracks;
@@ -277,7 +277,7 @@ abstract mixin class _$PlaylistCopyWith<$Res> implements $PlaylistCopyWith<$Res>
   factory _$PlaylistCopyWith(_Playlist value, $Res Function(_Playlist) _then) = __$PlaylistCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, String description, String ownerId, String ownerDisplayName, bool isPublic, bool isCollaborative, int totalTracks, List<Track> tracks, String? imageUrl, String externalUrl, DateTime createdAt, DateTime? modifiedAt
+ String id, String name, String description, String ownerId, String ownerDisplayName, bool? isPublic, bool isCollaborative, int? totalTracks, List<Track> tracks, String? imageUrl, String externalUrl, DateTime createdAt, DateTime? modifiedAt
 });
 
 
@@ -294,17 +294,17 @@ class __$PlaylistCopyWithImpl<$Res>
 
 /// Create a copy of Playlist
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = null,Object? ownerId = null,Object? ownerDisplayName = null,Object? isPublic = null,Object? isCollaborative = null,Object? totalTracks = null,Object? tracks = null,Object? imageUrl = freezed,Object? externalUrl = null,Object? createdAt = null,Object? modifiedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = null,Object? ownerId = null,Object? ownerDisplayName = null,Object? isPublic = freezed,Object? isCollaborative = null,Object? totalTracks = freezed,Object? tracks = null,Object? imageUrl = freezed,Object? externalUrl = null,Object? createdAt = null,Object? modifiedAt = freezed,}) {
   return _then(_Playlist(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,ownerId: null == ownerId ? _self.ownerId : ownerId // ignore: cast_nullable_to_non_nullable
 as String,ownerDisplayName: null == ownerDisplayName ? _self.ownerDisplayName : ownerDisplayName // ignore: cast_nullable_to_non_nullable
-as String,isPublic: null == isPublic ? _self.isPublic : isPublic // ignore: cast_nullable_to_non_nullable
-as bool,isCollaborative: null == isCollaborative ? _self.isCollaborative : isCollaborative // ignore: cast_nullable_to_non_nullable
-as bool,totalTracks: null == totalTracks ? _self.totalTracks : totalTracks // ignore: cast_nullable_to_non_nullable
-as int,tracks: null == tracks ? _self._tracks : tracks // ignore: cast_nullable_to_non_nullable
+as String,isPublic: freezed == isPublic ? _self.isPublic : isPublic // ignore: cast_nullable_to_non_nullable
+as bool?,isCollaborative: null == isCollaborative ? _self.isCollaborative : isCollaborative // ignore: cast_nullable_to_non_nullable
+as bool,totalTracks: freezed == totalTracks ? _self.totalTracks : totalTracks // ignore: cast_nullable_to_non_nullable
+as int?,tracks: null == tracks ? _self._tracks : tracks // ignore: cast_nullable_to_non_nullable
 as List<Track>,imageUrl: freezed == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
 as String?,externalUrl: null == externalUrl ? _self.externalUrl : externalUrl // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable

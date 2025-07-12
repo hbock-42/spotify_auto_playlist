@@ -12,9 +12,9 @@ _Playlist _$PlaylistFromJson(Map<String, dynamic> json) => _Playlist(
   description: json['description'] as String,
   ownerId: json['ownerId'] as String,
   ownerDisplayName: json['ownerDisplayName'] as String,
-  isPublic: json['isPublic'] as bool,
+  isPublic: json['isPublic'] as bool?,
   isCollaborative: json['isCollaborative'] as bool,
-  totalTracks: (json['totalTracks'] as num).toInt(),
+  totalTracks: (json['totalTracks'] as num?)?.toInt(),
   tracks: (json['tracks'] as List<dynamic>)
       .map((e) => Track.fromJson(e as Map<String, dynamic>))
       .toList(),

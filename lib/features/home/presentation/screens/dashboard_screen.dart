@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:spotify_auto_playlist/features/auth/presentation/states/auth_state.dart';
@@ -57,10 +58,7 @@ class DashboardScreen extends HookConsumerWidget {
                     authenticated: (tokens) => Column(
                       children: [
                         ShadButton(
-                          onPressed: () {
-                            // TODO: Implement playlist analysis
-                            _showComingSoonDialog(context, 'Playlist Analysis');
-                          },
+                          onPressed: () => context.go('/select-playlist'),
                           size: ShadButtonSize.lg,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,

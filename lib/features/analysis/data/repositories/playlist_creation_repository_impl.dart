@@ -254,7 +254,7 @@ class PlaylistCreationRepositoryImpl implements PlaylistCreationRepository {
       name: spotifyPlaylist.name,
       description: spotifyPlaylist.description ?? '',
       ownerId: spotifyPlaylist.owner.id,
-      ownerDisplayName: spotifyPlaylist.owner.displayName,
+      ownerDisplayName: spotifyPlaylist.owner.displayName ?? spotifyPlaylist.owner.id,
       isPublic: spotifyPlaylist.public,
       isCollaborative: spotifyPlaylist.collaborative,
       totalTracks: spotifyPlaylist.totalTracks,
