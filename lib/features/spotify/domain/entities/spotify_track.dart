@@ -5,6 +5,8 @@ part 'spotify_track.g.dart';
 
 @freezed
 abstract class SpotifyTrack with _$SpotifyTrack {
+  // ignore: invalid_annotation_target
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory SpotifyTrack({
     required String id,
     required String name,
@@ -24,6 +26,8 @@ abstract class SpotifyTrack with _$SpotifyTrack {
 
 @freezed
 abstract class SpotifyArtist with _$SpotifyArtist {
+  // ignore: invalid_annotation_target
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory SpotifyArtist({
     required String id,
     required String name,
@@ -36,6 +40,8 @@ abstract class SpotifyArtist with _$SpotifyArtist {
 
 @freezed
 abstract class SpotifyAlbum with _$SpotifyAlbum {
+  // ignore: invalid_annotation_target
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory SpotifyAlbum({
     required String id,
     required String name,
@@ -52,6 +58,8 @@ abstract class SpotifyAlbum with _$SpotifyAlbum {
 
 @freezed
 abstract class SpotifyImage with _$SpotifyImage {
+  // ignore: invalid_annotation_target
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory SpotifyImage({
     required String url,
     int? height,

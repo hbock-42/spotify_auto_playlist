@@ -30,7 +30,9 @@ Map<String, dynamic> _$BatchAnalysisProgressToJson(
   'totalSongs': instance.totalSongs,
   'completedSongs': instance.completedSongs,
   'failedSongs': instance.failedSongs,
-  'completedAnalyses': instance.completedAnalyses,
+  'completedAnalyses': instance.completedAnalyses
+      .map((e) => e.toJson())
+      .toList(),
   'failedSongTitles': instance.failedSongTitles,
   'currentSongTitle': instance.currentSongTitle,
   'isCompleted': instance.isCompleted,

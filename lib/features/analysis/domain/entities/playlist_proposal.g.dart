@@ -30,8 +30,8 @@ Map<String, dynamic> _$PlaylistProposalToJson(_PlaylistProposal instance) =>
       'suggestedName': instance.suggestedName,
       'description': instance.description,
       'criteria': instance.criteria,
-      'songs': instance.songs,
-      'metadata': instance.metadata,
+      'songs': instance.songs.map((e) => e.toJson()).toList(),
+      'metadata': instance.metadata.toJson(),
       'createdAt': instance.createdAt.toIso8601String(),
       'isSelected': instance.isSelected,
     };
@@ -111,7 +111,7 @@ _BatchCreationRequest _$BatchCreationRequestFromJson(
 Map<String, dynamic> _$BatchCreationRequestToJson(
   _BatchCreationRequest instance,
 ) => <String, dynamic>{
-  'requests': instance.requests,
+  'requests': instance.requests.map((e) => e.toJson()).toList(),
   'userId': instance.userId,
   'requestedAt': instance.requestedAt.toIso8601String(),
   'options': instance.options,

@@ -14,11 +14,11 @@ _SpotifyTrack _$SpotifyTrackFromJson(Map<String, dynamic> json) =>
           .map((e) => SpotifyArtist.fromJson(e as Map<String, dynamic>))
           .toList(),
       album: SpotifyAlbum.fromJson(json['album'] as Map<String, dynamic>),
-      durationMs: (json['durationMs'] as num).toInt(),
+      durationMs: (json['duration_ms'] as num).toInt(),
       uri: json['uri'] as String,
       href: json['href'] as String,
-      previewUrl: json['previewUrl'] as String?,
-      isLocal: json['isLocal'] as bool,
+      previewUrl: json['preview_url'] as String?,
+      isLocal: json['is_local'] as bool,
       popularity: (json['popularity'] as num).toInt(),
       explicit: json['explicit'] as bool,
     );
@@ -27,13 +27,13 @@ Map<String, dynamic> _$SpotifyTrackToJson(_SpotifyTrack instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'artists': instance.artists,
-      'album': instance.album,
-      'durationMs': instance.durationMs,
+      'artists': instance.artists.map((e) => e.toJson()).toList(),
+      'album': instance.album.toJson(),
+      'duration_ms': instance.durationMs,
       'uri': instance.uri,
       'href': instance.href,
-      'previewUrl': instance.previewUrl,
-      'isLocal': instance.isLocal,
+      'preview_url': instance.previewUrl,
+      'is_local': instance.isLocal,
       'popularity': instance.popularity,
       'explicit': instance.explicit,
     };
@@ -58,9 +58,9 @@ _SpotifyAlbum _$SpotifyAlbumFromJson(Map<String, dynamic> json) =>
     _SpotifyAlbum(
       id: json['id'] as String,
       name: json['name'] as String,
-      albumType: json['albumType'] as String,
-      releaseDate: json['releaseDate'] as String,
-      totalTracks: (json['totalTracks'] as num).toInt(),
+      albumType: json['album_type'] as String,
+      releaseDate: json['release_date'] as String,
+      totalTracks: (json['total_tracks'] as num).toInt(),
       uri: json['uri'] as String,
       href: json['href'] as String,
       images: (json['images'] as List<dynamic>)
@@ -72,12 +72,12 @@ Map<String, dynamic> _$SpotifyAlbumToJson(_SpotifyAlbum instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'albumType': instance.albumType,
-      'releaseDate': instance.releaseDate,
-      'totalTracks': instance.totalTracks,
+      'album_type': instance.albumType,
+      'release_date': instance.releaseDate,
+      'total_tracks': instance.totalTracks,
       'uri': instance.uri,
       'href': instance.href,
-      'images': instance.images,
+      'images': instance.images.map((e) => e.toJson()).toList(),
     };
 
 _SpotifyImage _$SpotifyImageFromJson(Map<String, dynamic> json) =>

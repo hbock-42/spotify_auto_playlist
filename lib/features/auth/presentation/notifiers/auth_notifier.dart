@@ -18,23 +18,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> _checkAuthStatus() async {
-    final result = await _authRepository.getStoredTokens();
+    // Use getCurrentTokens instead of getStoredTokens to validate scopes
+    final result = await _authRepository.getCurrentTokens();
     
-    result.fold(
-      (failure) => state = const AuthState.unauthenticated(),
-      (tokens) {
-        if (tokens == null) {
-          state = const AuthState.unauthenticated();
-        } else if (tokens.isExpired) {
-          if (tokens.canRefresh) {
-            _refreshTokens(tokens.refreshToken!);
-          } else {
-            state = const AuthState.unauthenticated();
-          }
-        } else {
-          state = AuthState.authenticated(tokens);
-        }
-      },
+    state = result.fold(
+      (failure) => const AuthState.unauthenticated(),
+      (tokens) => AuthState.authenticated(tokens),
     );
   }
 

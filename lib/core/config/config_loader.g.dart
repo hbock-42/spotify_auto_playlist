@@ -15,10 +15,10 @@ _AppConfig _$AppConfigFromJson(Map<String, dynamic> json) => _AppConfig(
 
 Map<String, dynamic> _$AppConfigToJson(_AppConfig instance) =>
     <String, dynamic>{
-      'app': instance.app,
-      'spotify': instance.spotify,
-      'api': instance.api,
-      'features': instance.features,
+      'app': instance.app.toJson(),
+      'spotify': instance.spotify.toJson(),
+      'api': instance.api.toJson(),
+      'features': instance.features.toJson(),
     };
 
 _AppInfo _$AppInfoFromJson(Map<String, dynamic> json) => _AppInfo(

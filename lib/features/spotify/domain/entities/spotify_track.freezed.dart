@@ -225,8 +225,8 @@ return $default(_that.id,_that.name,_that.artists,_that.album,_that.durationMs,_
 }
 
 /// @nodoc
-@JsonSerializable()
 
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _SpotifyTrack implements SpotifyTrack {
   const _SpotifyTrack({required this.id, required this.name, required final  List<SpotifyArtist> artists, required this.album, required this.durationMs, required this.uri, required this.href, this.previewUrl, required this.isLocal, required this.popularity, required this.explicit}): _artists = artists;
   factory _SpotifyTrack.fromJson(Map<String, dynamic> json) => _$SpotifyTrackFromJson(json);
@@ -526,8 +526,8 @@ return $default(_that.id,_that.name,_that.uri,_that.href);case _:
 }
 
 /// @nodoc
-@JsonSerializable()
 
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _SpotifyArtist implements SpotifyArtist {
   const _SpotifyArtist({required this.id, required this.name, required this.uri, required this.href});
   factory _SpotifyArtist.fromJson(Map<String, dynamic> json) => _$SpotifyArtistFromJson(json);
@@ -802,8 +802,8 @@ return $default(_that.id,_that.name,_that.albumType,_that.releaseDate,_that.tota
 }
 
 /// @nodoc
-@JsonSerializable()
 
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _SpotifyAlbum implements SpotifyAlbum {
   const _SpotifyAlbum({required this.id, required this.name, required this.albumType, required this.releaseDate, required this.totalTracks, required this.uri, required this.href, required final  List<SpotifyImage> images}): _images = images;
   factory _SpotifyAlbum.fromJson(Map<String, dynamic> json) => _$SpotifyAlbumFromJson(json);
@@ -1087,8 +1087,8 @@ return $default(_that.url,_that.height,_that.width);case _:
 }
 
 /// @nodoc
-@JsonSerializable()
 
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _SpotifyImage implements SpotifyImage {
   const _SpotifyImage({required this.url, this.height, this.width});
   factory _SpotifyImage.fromJson(Map<String, dynamic> json) => _$SpotifyImageFromJson(json);

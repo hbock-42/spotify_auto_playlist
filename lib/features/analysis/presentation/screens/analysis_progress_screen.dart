@@ -26,7 +26,7 @@ class AnalysisProgressScreen extends HookConsumerWidget {
       body: SafeArea(
         child: analysisState.when(
           idle: () => AnalysisIdleState(playlistId: playlistId),
-          running: (progress) => AnalysisRunningState(progress: progress),
+          running: (progress) => AnalysisRunningState(progress: progress, playlistId: playlistId),
           paused: (progress) => AnalysisPausedState(
             progress: progress,
             playlistId: playlistId,
@@ -114,9 +114,10 @@ class StartAnalysisButton extends HookConsumerWidget {
 }
 
 class AnalysisRunningState extends StatelessWidget {
-  const AnalysisRunningState({super.key, required this.progress});
+  const AnalysisRunningState({super.key, required this.progress, required this.playlistId});
 
   final BatchAnalysisProgress progress;
+  final String playlistId;
 
   @override
   Widget build(BuildContext context) {
@@ -184,7 +185,7 @@ class AnalysisRunningState extends StatelessWidget {
               ],
               AnalysisProgressStats(progress: progress),
               const SizedBox(height: 32),
-              AnalysisControlButtons(progress: progress),
+              AnalysisControlButtons(progress: progress, playlistId: playlistId),
             ],
           ),
         ),
@@ -267,9 +268,10 @@ class ProgressStat extends StatelessWidget {
 }
 
 class AnalysisControlButtons extends HookConsumerWidget {
-  const AnalysisControlButtons({super.key, required this.progress});
+  const AnalysisControlButtons({super.key, required this.progress, required this.playlistId});
 
   final BatchAnalysisProgress progress;
+  final String playlistId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -278,7 +280,7 @@ class AnalysisControlButtons extends HookConsumerWidget {
       children: [
         ShadButton.outline(
           onPressed: () {
-            // TODO: Pause analysis
+            ref.read(batchAnalysisProvider(playlistId).notifier).pauseAnalysis();
           },
           child: const Row(
             mainAxisSize: MainAxisSize.min,
@@ -292,7 +294,7 @@ class AnalysisControlButtons extends HookConsumerWidget {
         const SizedBox(width: 16),
         ShadButton.outline(
           onPressed: () {
-            // TODO: Cancel analysis
+            ref.read(batchAnalysisProvider(playlistId).notifier).cancelAnalysis();
           },
           child: const Row(
             mainAxisSize: MainAxisSize.min,
@@ -371,7 +373,7 @@ class ResumeAnalysisButton extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ShadButton(
       onPressed: () {
-        // TODO: Resume analysis
+        ref.read(batchAnalysisProvider(playlistId).notifier).resumeAnalysis();
       },
       size: ShadButtonSize.lg,
       child: const Row(
@@ -525,7 +527,7 @@ class RetryAnalysisButton extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ShadButton(
       onPressed: () {
-        // TODO: Retry analysis
+        ref.read(batchAnalysisProvider(playlistId).notifier).startAnalysis();
       },
       size: ShadButtonSize.lg,
       child: const Row(

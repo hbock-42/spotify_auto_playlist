@@ -30,4 +30,6 @@ abstract class SpotifyRepository {
     String playlistId,
     List<String> trackUris,
   );
+  
+  Future<Either<SpotifyFailure, Map<String, dynamic>>> getAudioFeatures(List<String> trackIds);
 }

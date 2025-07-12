@@ -156,4 +156,9 @@ class SpotifyRepositoryImpl implements SpotifyRepository {
   ) async {
     return _apiClient.addTracksToPlaylist(playlistId, trackUris);
   }
+
+  @override
+  Future<Either<SpotifyFailure, Map<String, dynamic>>> getAudioFeatures(List<String> trackIds) async {
+    return _apiClient.getAudioFeatures(trackIds);
+  }
 }

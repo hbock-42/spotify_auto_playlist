@@ -35,7 +35,7 @@ Map<String, dynamic> _$SongClassificationToJson(_SongClassification instance) =>
       'styles': instance.styles,
       'confidence': instance.confidence,
       'analyzedAt': instance.analyzedAt.toIso8601String(),
-      'metadata': instance.metadata,
+      'metadata': instance.metadata.toJson(),
     };
 
 _ClassificationMetadata _$ClassificationMetadataFromJson(

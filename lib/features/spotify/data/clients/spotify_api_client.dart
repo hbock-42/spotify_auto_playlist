@@ -1,31 +1,92 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:logger/logger.dart';
+
+import '../../../../core/utils/log_formatters.dart';
 import '../../../auth/domain/repositories/auth_repository.dart';
 import '../../domain/failures/spotify_failure.dart';
 
 class SpotifyApiClient {
-  static const String _baseUrl = 'https://api.spotify.com/v1';
-  
-  final Dio _dio;
-  final AuthRepository _authRepository;
-  final Logger _logger;
-
   SpotifyApiClient({
     required Dio dio,
     required AuthRepository authRepository,
     required Logger logger,
-  })  : _dio = dio,
-        _authRepository = authRepository,
-        _logger = logger {
+  }) : _dio = dio,
+       _authRepository = authRepository,
+       _logger = logger {
     _setupInterceptors();
   }
+  static const String _baseUrl = 'https://api.spotify.com/v1';
+
+  final Dio _dio;
+  final AuthRepository _authRepository;
+  final Logger _logger;
 
   void _setupInterceptors() {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: _onRequest,
         onError: _onError,
+      ),
+    );
+
+    // Add beautiful logging interceptor
+    const lineLength = 120;
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          final buffer = StringBuffer();
+          buffer.writeln('🎵 ${options.method.toUpperCase()} ${options.path}');
+
+          if (options.queryParameters.isNotEmpty) {
+            final queryStr = options.queryParameters.entries
+                .map((e) => '${e.key}=${e.value}')
+                .join('&');
+            formatLongString(buffer, queryStr, '   Query: ', '          ', lineLength);
+          }
+
+          _logger.i(buffer.toString().trim());
+          handler.next(options);
+        },
+        onResponse: (response, handler) {
+          final buffer = StringBuffer();
+          buffer.writeln('✅ ${response.statusCode} ${response.requestOptions.path}');
+
+          // Format response data nicely
+          if (response.data != null) {
+            final dataStr = response.data.toString();
+            const indent = '   Response: ';
+            const continueIndent = '             ';
+
+            if (dataStr.length > 1000) {
+              final truncatedStr = '${dataStr.substring(0, 1000)}...';
+              formatLongString(buffer, truncatedStr, indent, continueIndent, lineLength);
+            } else {
+              formatLongString(buffer, dataStr, indent, continueIndent, lineLength);
+            }
+          }
+
+          _logger.i(buffer.toString().trim());
+          handler.next(response);
+        },
+        onError: (error, handler) {
+          final buffer = StringBuffer();
+          buffer.writeln(
+            '❌ ${error.response?.statusCode ?? 'NETWORK'} ${error.requestOptions.path}',
+          );
+
+          if (error.message != null) {
+            formatLongString(buffer, error.message!, '   Error: ', '          ', lineLength);
+          }
+
+          if (error.response?.data != null) {
+            final responseStr = error.response!.data.toString();
+            formatLongString(buffer, responseStr, '   Response: ', '             ', lineLength);
+          }
+
+          _logger.e(buffer.toString().trim());
+          handler.next(error);
+        },
       ),
     );
   }
@@ -36,7 +97,7 @@ class SpotifyApiClient {
   ) async {
     // Add authorization header
     final authResult = await _authRepository.getCurrentTokens();
-    
+
     authResult.fold(
       (failure) {
         _logger.e('Failed to get auth tokens: $failure');
@@ -62,7 +123,7 @@ class SpotifyApiClient {
     if (err.response?.statusCode == 401) {
       // Try to refresh token - get current tokens which will trigger refresh if needed
       final refreshResult = await _authRepository.getCurrentTokens();
-      
+
       await refreshResult.fold(
         (failure) async {
           _logger.e('Token refresh failed: $failure');
@@ -72,7 +133,7 @@ class SpotifyApiClient {
           // Retry the original request with new token
           final options = err.requestOptions;
           options.headers['Authorization'] = 'Bearer ${tokens.accessToken}';
-          
+
           try {
             final response = await _dio.fetch(options);
             handler.resolve(response);
@@ -92,7 +153,7 @@ class SpotifyApiClient {
   ) async {
     try {
       final response = await request();
-      
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         return Right(fromJson(response.data));
       } else {
@@ -113,15 +174,12 @@ class SpotifyApiClient {
   ) async {
     try {
       final response = await request();
-      
+
       if (response.statusCode == 200) {
         final data = response.data as Map<String, dynamic>;
         final items = data[itemsKey] as List<dynamic>;
-        final results = items
-            .cast<Map<String, dynamic>>()
-            .map(fromJson)
-            .toList();
-        
+        final results = items.cast<Map<String, dynamic>>().map(fromJson).toList();
+
         return Right(results);
       } else {
         return Left(_mapStatusCodeToFailure(response.statusCode));
@@ -248,7 +306,7 @@ class SpotifyApiClient {
         '$_baseUrl/playlists/$playlistId/tracks',
         data: {'uris': trackUris},
       );
-      
+
       if (response.statusCode == 201) {
         return const Right(null);
       } else {
@@ -260,5 +318,17 @@ class SpotifyApiClient {
       _logger.e('Unexpected error: $e');
       return Left(SpotifyFailure.unknown(e.toString()));
     }
+  }
+
+  Future<Either<SpotifyFailure, Map<String, dynamic>>> getAudioFeatures(List<String> trackIds) {
+    return _handleRequest(
+      () => _dio.get(
+        '$_baseUrl/audio-features',
+        queryParameters: {
+          'ids': trackIds.join(','),
+        },
+      ),
+      (data) => data,
+    );
   }
 }

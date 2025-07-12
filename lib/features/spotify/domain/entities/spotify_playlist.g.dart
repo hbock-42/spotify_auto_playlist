@@ -30,14 +30,14 @@ Map<String, dynamic> _$SpotifyPlaylistToJson(_SpotifyPlaylist instance) =>
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,
-      'owner': instance.owner,
+      'owner': instance.owner.toJson(),
       'public': instance.public,
       'collaborative': instance.collaborative,
       'uri': instance.uri,
       'href': instance.href,
-      'images': instance.images,
+      'images': instance.images.map((e) => e.toJson()).toList(),
       'snapshot_id': instance.snapshotId,
-      'tracks': instance.tracks,
+      'tracks': instance.tracks.toJson(),
     };
 
 _SpotifyTracksRef _$SpotifyTracksRefFromJson(Map<String, dynamic> json) =>

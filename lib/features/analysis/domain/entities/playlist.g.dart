@@ -35,7 +35,7 @@ Map<String, dynamic> _$PlaylistToJson(_Playlist instance) => <String, dynamic>{
   'isPublic': instance.isPublic,
   'isCollaborative': instance.isCollaborative,
   'totalTracks': instance.totalTracks,
-  'tracks': instance.tracks,
+  'tracks': instance.tracks.map((e) => e.toJson()).toList(),
   'imageUrl': instance.imageUrl,
   'externalUrl': instance.externalUrl,
   'createdAt': instance.createdAt.toIso8601String(),
@@ -71,7 +71,7 @@ Map<String, dynamic> _$TrackToJson(_Track instance) => <String, dynamic>{
   'isExplicit': instance.isExplicit,
   'popularity': instance.popularity,
   'addedAt': instance.addedAt.toIso8601String(),
-  'audioFeatures': instance.audioFeatures,
+  'audioFeatures': instance.audioFeatures?.toJson(),
 };
 
 _AudioFeatures _$AudioFeaturesFromJson(Map<String, dynamic> json) =>

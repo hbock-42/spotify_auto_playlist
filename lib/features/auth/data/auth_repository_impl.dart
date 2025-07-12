@@ -121,10 +121,21 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<AuthFailure, AuthTokens>> getCurrentTokens() async {
     final storedResult = await getStoredTokens();
     
-    return storedResult.fold(
-      (failure) => left(failure),
-      (tokens) {
+    return await storedResult.fold(
+      (failure) async => left(failure),
+      (tokens) async {
         if (tokens == null) {
+          return left(const AuthFailure.tokenExpired());
+        }
+        
+        // Check if the stored token scopes match the required scopes
+        final requiredScopes = _config.spotify.scopes.toSet();
+        final tokenScopes = tokens.scopes.toSet();
+        
+        if (!tokenScopes.containsAll(requiredScopes)) {
+          _logger.w('Token scopes mismatch. Required: $requiredScopes, Current: $tokenScopes');
+          // Clear the invalid tokens
+          await clearTokens();
           return left(const AuthFailure.tokenExpired());
         }
         
@@ -144,6 +155,9 @@ class AuthRepositoryImpl implements AuthRepository {
       _logger.i('Clearing stored tokens');
 
       await _secureStorage.delete(key: _tokenStorageKey);
+      
+      // Also clear OAuth2Helper's internal token cache
+      await _oAuth2Helper.removeAllTokens();
 
       _logger.i('Tokens cleared successfully');
       return right(unit);
