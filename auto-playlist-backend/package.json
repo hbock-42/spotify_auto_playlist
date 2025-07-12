@@ -1,0 +1,30 @@
+{
+  "name": "auto-playlist-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.13.1",
+  "dependencies": {
+    "@trpc/server": "^11.4.3",
+    "trpc-openapi": "^1.2.0",
+    "zod": "^4.0.5"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.21.0",
+    "@types/node": "^24.0.13",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "dev": "ts-node src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "generate-openapi": "ts-node src/generate-openapi.ts"
+  }
+}

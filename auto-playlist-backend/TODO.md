@@ -1,0 +1,99 @@
+# Auto Playlist Backend - Development TODO
+
+## Overview
+Node.js/TypeScript backend for the auto-playlist Flutter application. Provides audio analysis services using Essentia.js and manages data persistence with Supabase/PostgreSQL.
+
+## Phase 1: Project Foundation
+- [ ] Setup core backend infrastructure
+  - [ ] Configure tRPC with OpenAPI generation
+  - [ ] Setup Supabase database connection
+  - [ ] Configure sqlc for TypeScript generation
+  - [ ] Setup environment configuration
+  - [ ] Add input validation with Zod schemas
+
+## Phase 2: Database Schema Design
+- [ ] Design PostgreSQL schema for audio features
+  - [ ] Create tracks table (id, spotify_id, title, artist, duration, etc.)
+  - [ ] Create audio_features table (track_id, energy, danceability, valence, tempo, etc.)
+  - [ ] Create analysis_cache table (spotify_id, features_json, analyzed_at)
+  - [ ] Add proper indexes for performance
+- [ ] Generate TypeScript types with sqlc
+- [ ] Implement database migrations
+
+## Phase 3: Audio Analysis Service
+- [ ] Setup Essentia.js integration
+  - [ ] Install and configure Essentia.js
+  - [ ] Create audio analysis endpoints
+  - [ ] Implement feature extraction (energy, danceability, valence, tempo, acousticness)
+  - [ ] Add batch processing capabilities
+- [ ] Create analysis caching system
+  - [ ] Check cache before analysis
+  - [ ] Store results in Supabase
+  - [ ] Implement cache invalidation strategy
+
+## Phase 4: iTunes API Integration & Audio Processing
+- [ ] Implement iTunes Search API integration
+  - [ ] Search iTunes by track title and artist from Flutter app
+  - [ ] Extract preview URLs from iTunes API responses
+  - [ ] Handle rate limiting (20 calls/minute)
+  - [ ] Implement caching for iTunes search results
+- [ ] Implement audio download/streaming
+  - [ ] Download/stream iTunes preview URLs (30-second AAC clips)
+  - [ ] Support AAC and other iTunes formats
+  - [ ] Temporary file management for processing
+  - [ ] Add "provided courtesy of iTunes" attribution
+
+## Phase 5: API Endpoints
+- [ ] Implement tRPC procedures
+  - [ ] `analyzeTrack` - Search iTunes and analyze single track by title/artist
+  - [ ] `analyzeBatch` - Batch analyze multiple tracks with rate limiting
+  - [ ] `getAudioFeatures` - Retrieve cached audio features
+  - [ ] `getCacheStatus` - Check if tracks are already analyzed
+- [ ] Add proper error handling and validation
+- [ ] Generate OpenAPI documentation
+
+## Phase 6: Performance & Optimization
+- [ ] Implement concurrent processing
+  - [ ] Queue system for batch analysis
+  - [ ] Parallel audio processing
+  - [ ] Progress tracking for long-running operations
+- [ ] Add monitoring and logging
+  - [ ] Request/response logging
+  - [ ] Performance metrics
+  - [ ] Error tracking
+
+## Phase 7: Production Readiness
+- [ ] Docker containerization
+- [ ] Environment-specific configurations
+- [ ] Health check endpoints
+- [ ] Graceful shutdown handling
+- [ ] Security headers and validation
+
+## Technical Stack
+- **Runtime**: Node.js with TypeScript
+- **API Framework**: tRPC with OpenAPI integration  
+- **Database**: Supabase (PostgreSQL)
+- **ORM/Query Builder**: sqlc for type-safe SQL
+- **Audio Analysis**: Essentia.js
+- **Validation**: Zod schemas
+- **HTTP Client**: node-fetch or axios for iTunes API and audio downloading
+
+## Integration Points
+- **Flutter App**: Sends track metadata (title, artist), consumes audio analysis results
+- **iTunes Search API**: Provides 30-second preview URLs for audio analysis
+- **Supabase**: Stores audio features, iTunes search results, and analysis cache
+- **Essentia.js**: Performs audio feature extraction from iTunes preview URLs
+
+## Performance Targets
+- **Single track analysis**: < 2 seconds
+- **Batch processing**: 50 tracks in ~4 minutes
+- **Cache hit response**: < 100ms
+- **Concurrent requests**: Support 10+ simultaneous analyses
+
+## Notes
+- Replace deprecated Spotify Audio Features API with iTunes + Essentia.js analysis
+- iTunes API rate limit: ~20 calls/minute - implement intelligent caching
+- Prioritize caching to avoid re-analyzing same tracks and iTunes searches
+- Support both individual and batch analysis workflows with rate limiting
+- Ensure type safety throughout with sqlc and Zod
+- Include iTunes attribution: "provided courtesy of iTunes"
