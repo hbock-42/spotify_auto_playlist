@@ -1,0 +1,60 @@
+name: spotify_auto_playlist
+description: "Analyses your spotify playlists using LLM and creates auto-generated playlists"
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_hooks: ^0.21.2
+  shadcn_ui: ^0.28.0
+  hooks_riverpod: ^2.6.1
+  logger: ^2.6.0
+  dio: ^5.8.0+1
+  fpdart: ^1.1.1
+  freezed_annotation: ^3.1.0
+  json_annotation: ^4.9.0
+  flutter_gen: ^5.10.0
+  oauth2_client: ^4.2.0
+  flutter_secure_storage: ^10.0.0-beta.4
+  go_router: ^16.0.0
+  shared_preferences: ^2.5.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  lint: ^2.8.0
+
+  flutter_lints: ^6.0.0
+  custom_lint: ^0.7.5
+  riverpod_lint: ^2.6.5
+  mocktail: ^1.0.4
+  mocktail_image_network: ^1.2.0
+  json_serializable: ^6.9.5
+  freezed: ^3.1.0
+  build_runner: ^2.5.4
+  flutter_gen_runner: ^5.10.0
+
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/config/
+    - assets/images/
+
+flutter_gen:
+  assets:
+    enabled: true
+    outputs:
+      style: dot-delimiter
+  output: lib/gen/
+  line_length: 100
+
+dependency_overrides:
+  flutter_web_auth_2: 3.1.2
+

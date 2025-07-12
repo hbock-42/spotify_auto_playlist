@@ -1,0 +1,30 @@
+{
+  "app": {
+    "name": "Spotify Auto Playlist",
+    "version": "1.0.0",
+    "environment": "local"
+  },
+  "spotify": {
+    "clientId": "e813e35d216640cb9ec74a06c03a35d2",
+    "redirectUri": "spotifyautoplaylist://callback",
+    "redirectUriWeb": "http://localhost:3000/callback",
+    "scopes": [
+      "user-read-private",
+      "user-read-email",
+      "playlist-read-private",
+      "playlist-read-collaborative",
+      "playlist-modify-public",
+      "playlist-modify-private"
+    ]
+  },
+  "api": {
+    "baseUrl": "https://api.spotify.com/v1",
+    "tokenUrl": "https://accounts.spotify.com/api/token",
+    "authorizeUrl": "https://accounts.spotify.com/authorize"
+  },
+  "features": {
+    "enableLogging": true,
+    "maxPlaylistAnalysis": 10,
+    "defaultPlaylistPrefix": "auto"
+  }
+}
