@@ -68,14 +68,14 @@ Create a Flutter application that analyzes Spotify playlists using LLM and autom
   - [x] Input: title, artist, genres, energy, danceability, valence, tempo, acousticness
   - [x] Output: structured JSON with mood, context, style classifications
   - [x] Target: 2-5 seconds per song (vs 50+ seconds with full analysis)
-- [ ] Implement batch song analysis
-  - [ ] Parallel processing (2-4 concurrent requests on M1 32GB)
-  - [ ] Progress tracking and pause/resume functionality
-  - [ ] Rate limiting and retry logic
-  - [ ] Performance target: ~4 minutes for 50 songs, ~20 minutes for 1000 songs
-- [ ] Create classification system
-  - [ ] Define classification categories (mood, context, style)
-  - [ ] Implement classification storage
+- [x] Implement batch song analysis
+  - [x] Parallel processing (2-4 concurrent requests on M1 32GB)
+  - [x] Progress tracking and pause/resume functionality
+  - [x] Rate limiting and retry logic
+  - [x] Performance target: ~4 minutes for 50 songs, ~20 minutes for 1000 songs
+- [x] Create classification system
+  - [x] Define classification categories (mood, context, style)
+  - [x] Implement classification storage
 
 ## Phase 4: Core Logic
 - [ ] Create domain entities

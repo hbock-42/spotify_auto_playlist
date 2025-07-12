@@ -29,7 +29,15 @@ class OllamaApiClient {
     );
   }
 
-  Future<Either<LlmFailure, SongAnalysis>> analyzeSong(SongMetadata metadata) async {
+  Future<Either<LlmFailure, SongAnalysis>> analyzeSong(
+    SongMetadata metadata, {
+    int maxRetries = 3,
+    Duration retryDelay = const Duration(seconds: 1),
+  }) async {
+    return _retryWithBackoff(() => _performSongAnalysis(metadata), maxRetries, retryDelay);
+  }
+
+  Future<Either<LlmFailure, SongAnalysis>> _performSongAnalysis(SongMetadata metadata) async {
     try {
       final prompt = _buildAnalysisPrompt(metadata);
       
@@ -51,7 +59,7 @@ class OllamaApiClient {
           // Parse the JSON response from the LLM
           final analysisJson = _parseJsonResponse(generatedText);
           final analysis = SongAnalysis(
-            trackId: metadata.title, // Will be replaced with actual track ID later
+            trackId: '${metadata.title}_${metadata.artist}', // Temporary composite ID
             moods: List<String>.from(analysisJson['moods'] ?? []),
             contexts: List<String>.from(analysisJson['contexts'] ?? []),
             styles: List<String>.from(analysisJson['styles'] ?? []),
@@ -101,6 +109,50 @@ class OllamaApiClient {
     }
   }
 
+  Future<Either<LlmFailure, T>> _retryWithBackoff<T>(
+    Future<Either<LlmFailure, T>> Function() operation,
+    int maxRetries,
+    Duration retryDelay,
+  ) async {
+    int attempts = 0;
+    
+    while (attempts < maxRetries) {
+      final result = await operation();
+      
+      // If successful or non-retryable error, return immediately
+      if (result.isRight() || !_isRetryableFailure(result.fold((l) => l, (r) => null))) {
+        return result;
+      }
+      
+      attempts++;
+      
+      if (attempts < maxRetries) {
+        final delay = Duration(
+          milliseconds: (retryDelay.inMilliseconds * (1 << (attempts - 1))).toInt(),
+        );
+        _logger.w('Retrying request in ${delay.inMilliseconds}ms (attempt $attempts/$maxRetries)');
+        await Future.delayed(delay);
+      }
+    }
+    
+    // Final attempt or return last error
+    return operation();
+  }
+
+  bool _isRetryableFailure(LlmFailure? failure) {
+    if (failure == null) return false;
+    
+    return failure.when(
+      networkError: (_) => true,
+      timeout: () => true,
+      rateLimited: () => true,
+      serverError: (_) => true,
+      modelNotAvailable: (_) => false,
+      invalidResponse: (_) => false,
+      unknown: (_) => true,
+    );
+  }
+
   String _buildAnalysisPrompt(SongMetadata metadata) {
     return '''
 Analyze this song and provide a structured classification in JSON format.
@@ -124,12 +176,39 @@ Provide your analysis in this exact JSON format:
 }
 
 Classification Guidelines:
-- Moods: emotional qualities (happy, sad, energetic, calm, aggressive, romantic, etc.)
-- Contexts: situations where the song fits (workout, party, relaxing, driving, studying, etc.)
-- Styles: musical characteristics (upbeat, mellow, heavy, electronic, acoustic, etc.)
-- Confidence: how certain you are about the classification (0.0 to 1.0)
 
-Focus on the most relevant 2-3 categories for each type. Be concise and accurate.
+MOODS (emotional qualities):
+- happy, joyful, upbeat, euphoric, cheerful
+- sad, melancholic, depressive, sorrowful, nostalgic
+- energetic, intense, aggressive, powerful, fierce
+- calm, peaceful, serene, relaxed, tranquil
+- romantic, sensual, intimate, passionate
+- dark, mysterious, haunting, eerie
+- angry, rebellious, defiant
+- dreamy, ethereal, atmospheric
+
+CONTEXTS (usage situations):
+- workout, gym, running, exercise
+- party, dancing, clubbing, celebration
+- relaxing, chillout, meditation, sleep
+- driving, road trip, commuting
+- studying, focus, concentration, background
+- romantic, date night, intimate moments
+- social, gathering, hangout
+- morning, wake-up, energizing
+- evening, wind-down, nighttime
+
+STYLES (musical characteristics):
+- upbeat, fast-paced, high-energy
+- mellow, slow, laid-back, gentle
+- heavy, intense, powerful, loud
+- electronic, synthetic, digital, techno
+- acoustic, organic, natural, live
+- experimental, avant-garde, unconventional
+- mainstream, commercial, radio-friendly
+- instrumental, vocal-driven, lyric-focused
+
+Select 2-3 most relevant categories for each type. Be precise and avoid overlap.
 ''';
   }
 
