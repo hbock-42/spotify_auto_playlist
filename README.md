@@ -26,6 +26,7 @@ This project uses Flutter with Clean Architecture principles and several product
 - Flutter SDK 3.32.5 (install via FVM)
 - Just command runner
 - Dart/Flutter development environment
+- Ollama (for local LLM backend)
 
 ### Installation
 
@@ -39,7 +40,21 @@ This project uses Flutter with Clean Architecture principles and several product
    just flutter-gen
    ```
 
-3. Run the application:
+3. Set up Ollama for local LLM backend:
+   ```bash
+   # Install Ollama on macOS (requires macOS 12 Monterey or later)
+   # Download from: https://ollama.com/download/Ollama.dmg
+   # Install the .dmg file normally
+   
+   # Install a model for music analysis (choose one)
+   ollama pull llama3.1:8b    # Recommended - good balance of speed/quality
+   ollama pull mistral:7b     # Alternative - faster, slightly lower quality
+   
+   # Start Ollama service (runs on http://localhost:11434)
+   ollama serve
+   ```
+
+4. Run the application:
    ```bash
    just flutter run
    ```

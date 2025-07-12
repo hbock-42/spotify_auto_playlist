@@ -8,6 +8,7 @@
    * [Phase 5: UI Implementation](#phase-5-ui-implementation)
    * [Phase 6: Polish &amp; Error Handling](#phase-6-polish--error-handling)
    * [Future Enhancements](#future-enhancements)
+   * [Future](#future)
    * [Technical Decisions Made](#technical-decisions-made)
    * [Notes](#notes)
 <!--te-->
@@ -54,17 +55,26 @@ Create a Flutter application that analyzes Spotify playlists using LLM and autom
   - [x] POST /playlists/{id}/tracks
 
 ## Phase 3: LLM Integration
-- [ ] Choose and set up LLM service (OpenAI/Claude/etc)
-  - [ ] Create API service
-  - [ ] Handle API keys securely
-- [ ] Design song analysis prompt template
-  - [ ] Include: genre, instruments, mood, context (party, holidays, etc.)
-  - [ ] Define structured JSON response format
+- [x] Choose and set up LLM service (Local Ollama with Llama 3.1 8B)
+  - [x] Install Ollama on macOS (via .dmg installer)
+  - [x] Pull and test Llama 3.1 8B model
+  - [x] Verify API endpoint (localhost:11434) working
+- [ ] Create Flutter LLM service
+  - [ ] Set up Dio HTTP client for Ollama API
+  - [ ] Follow existing Spotify API patterns (error handling with fpdart)
+  - [ ] Implement basic song analysis endpoint
+- [ ] Design optimized song analysis approach
+  - [ ] Use Spotify metadata + audio features (no actual audio processing)
+  - [ ] Input: title, artist, genres, energy, danceability, valence, tempo, acousticness
+  - [ ] Output: structured JSON with mood, context, style classifications
+  - [ ] Target: 2-5 seconds per song (vs 50+ seconds with full analysis)
 - [ ] Implement batch song analysis
-  - [ ] Handle rate limits
-  - [ ] Implement retry logic
+  - [ ] Parallel processing (2-4 concurrent requests on M1 32GB)
+  - [ ] Progress tracking and pause/resume functionality
+  - [ ] Rate limiting and retry logic
+  - [ ] Performance target: ~4 minutes for 50 songs, ~20 minutes for 1000 songs
 - [ ] Create classification system
-  - [ ] Define classification categories
+  - [ ] Define classification categories (mood, context, style)
   - [ ] Implement classification storage
 
 ## Phase 4: Core Logic
