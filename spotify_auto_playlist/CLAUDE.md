@@ -1,3 +1,5 @@
+# Table of content
+
 <!--ts-->
 * [CLAUDE.md](#claudemd)
    * [Project Overview](#project-overview)

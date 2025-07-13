@@ -1,0 +1,9 @@
+node_modules/
+dist/
+build/
+*.json
+*.md
+.env
+.env.*
+pnpm-lock.yaml
+openapi.json

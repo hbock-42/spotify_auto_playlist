@@ -1,3 +1,5 @@
+# Table of content
+
 <!--ts-->
 * [spotify_auto_playlist](#spotify_auto_playlist)
    * [Getting Started](#getting-started)

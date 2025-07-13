@@ -1,15 +1,34 @@
+# Table of content
+
+<!--ts-->
+* [Table of content](#table-of-content)
+* [Auto Playlist Backend - Development TODO](#auto-playlist-backend---development-todo)
+   * [Overview](#overview)
+   * [Phase 1: Project Foundation](#phase-1-project-foundation)
+   * [Phase 2: Database Schema Design](#phase-2-database-schema-design)
+   * [Phase 3: Audio Analysis Service](#phase-3-audio-analysis-service)
+   * [Phase 4: iTunes API Integration &amp; Audio Processing](#phase-4-itunes-api-integration--audio-processing)
+   * [Phase 5: API Endpoints](#phase-5-api-endpoints)
+   * [Phase 6: Performance &amp; Optimization](#phase-6-performance--optimization)
+   * [Phase 7: Production Readiness](#phase-7-production-readiness)
+   * [Technical Stack](#technical-stack)
+   * [Integration Points](#integration-points)
+   * [Performance Targets](#performance-targets)
+   * [Notes](#notes)
+<!--te-->
+
 # Auto Playlist Backend - Development TODO
 
 ## Overview
 Node.js/TypeScript backend for the auto-playlist Flutter application. Provides audio analysis services using Essentia.js and manages data persistence with Supabase/PostgreSQL.
 
 ## Phase 1: Project Foundation
-- [ ] Setup core backend infrastructure
-  - [ ] Configure tRPC with OpenAPI generation
+- [x] Setup core backend infrastructure
+  - [x] Configure tRPC with OpenAPI generation
   - [ ] Setup Supabase database connection
-  - [ ] Configure sqlc for TypeScript generation
-  - [ ] Setup environment configuration
-  - [ ] Add input validation with Zod schemas
+  - [x] Configure Effect SQL for TypeScript generation (replaces sqlc)
+  - [x] Setup environment configuration
+  - [x] Add input validation with Zod schemas
 
 ## Phase 2: Database Schema Design
 - [ ] Design PostgreSQL schema for audio features

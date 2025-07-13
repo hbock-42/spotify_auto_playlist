@@ -4,27 +4,41 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "ts-node src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "generate-openapi": "ts-node src/generate-openapi.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "pnpm type-check && pnpm lint && pnpm format:check"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
-    "@trpc/server": "^11.4.3",
+    "@effect/platform": "^0.87.12",
+    "@effect/platform-node": "^0.89.5",
+    "@effect/sql": "^0.40.13",
+    "@effect/sql-pg": "^0.41.13",
+    "@trpc/server": "^10.45.2",
+    "dotenv": "^17.2.0",
+    "effect": "^3.16.12",
     "trpc-openapi": "^1.2.0",
-    "zod": "^4.0.5"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@eslint/js": "^9.31.0",
     "@openapitools/openapi-generator-cli": "^2.21.0",
     "@types/node": "^24.0.13",
+    "eslint": "^9.31.0",
+    "eslint-config-prettier": "^10.1.5",
+    "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
-  },
-  "scripts": {
-    "dev": "ts-node src/server.ts",
-    "build": "tsc",
-    "start": "node dist/server.js",
-    "generate-openapi": "ts-node src/generate-openapi.ts"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.36.0"
   }
 }

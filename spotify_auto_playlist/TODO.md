@@ -1,3 +1,5 @@
+# Table of content
+
 <!--ts-->
 * [Spotify Auto Playlist - Development TODO](#spotify-auto-playlist---development-todo)
    * [Overview](#overview)
