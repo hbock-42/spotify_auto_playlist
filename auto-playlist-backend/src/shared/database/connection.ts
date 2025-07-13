@@ -18,7 +18,7 @@ export const PgLive = Layer.effect(
   DatabaseService,
   Effect.gen(function* () {
     const config = yield* dbConfig
-    
+
     const pool = new Pool({
       host: config.host,
       port: config.port,
@@ -31,10 +31,12 @@ export const PgLive = Layer.effect(
       connectionTimeoutMillis: 2000,
     })
 
-    const getClient = () => Effect.tryPromise({
-      try: () => pool.connect(),
-      catch: (error) => new Error(`Database connection failed: ${String(error)}`)
-    })
+    const getClient = () =>
+      Effect.tryPromise({
+        try: () => pool.connect(),
+        catch: (error) =>
+          new Error(`Database connection failed: ${String(error)}`),
+      })
 
     return { pool, getClient } satisfies DatabaseService
   })

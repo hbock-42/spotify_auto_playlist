@@ -185,4 +185,4 @@ const AudioAnalysisServiceLive = Layer.succeed(
 - **Always verify library documentation**: Use context7 MCP to check the latest documentation for any library before implementation
 - **Follow Clean Architecture**: Keep domain logic pure, infrastructure at the edges
 - **Use Effect patterns**: Leverage Effect.gen, Layer, and typed errors consistently
-- **Always run `just check` before thinking you have finish a task**
+- **Always run `just check` before thinking you have finished a task**

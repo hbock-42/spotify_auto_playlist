@@ -61,6 +61,9 @@ export default tseslint.config(
       'no-var': 'error',
       'object-shorthand': 'error',
       'prefer-template': 'error',
+
+      // Allow redundant variable assignments for clarity and debugging
+      '@typescript-eslint/no-unnecessary-variable': 'off',
     },
   },
 

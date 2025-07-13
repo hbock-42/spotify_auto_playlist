@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "target": "es2020",
-    "module": "commonjs",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "lib": ["es2020", "DOM"],
     "outDir": "./dist",
-    "rootDir": "./src",
     "strict": true,
     "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
@@ -19,6 +19,6 @@
     "declarationMap": true,
     "sourceMap": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
+  "include": ["src/**/*", "tests/**/*", "vitest.config.ts"],
+  "exclude": ["node_modules", "dist"]
 }

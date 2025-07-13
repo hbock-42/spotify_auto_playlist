@@ -39,6 +39,11 @@ export const audioConfig = Config.all({
   analysisTimeout: Config.integer('ANALYSIS_TIMEOUT_MS').pipe(
     Config.withDefault(30000)
   ),
+  frameSize: Config.integer('AUDIO_FRAME_SIZE').pipe(Config.withDefault(1024)),
+  hopSize: Config.integer('AUDIO_HOP_SIZE').pipe(Config.withDefault(512)),
+  concurrency: Config.integer('AUDIO_ANALYSIS_CONCURRENCY').pipe(
+    Config.withDefault(3)
+  ),
 })
 
 // Combined application configuration
