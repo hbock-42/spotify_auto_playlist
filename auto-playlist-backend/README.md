@@ -67,7 +67,7 @@ src/
 - **Runtime**: Node.js with TypeScript
 - **Functional Framework**: Effect-ts for type-safe functional programming
 - **API Framework**: tRPC v10 with OpenAPI integration
-- **Database**: Supabase (PostgreSQL) with Effect SQL
+- **Database**: Supabase (PostgreSQL) with sqlc for type-safe queries
 - **Audio Analysis**: Essentia.js for feature extraction
 - **External API**: iTunes Search API for 30-second preview URLs
 - **Validation**: Zod v3 for schema validation
@@ -80,6 +80,7 @@ src/
 
 - Node.js 18+ 
 - pnpm 10.13.1+
+- sqlc CLI tool (install with `brew install sqlc`)
 - PostgreSQL database (optional for basic testing)
 
 ### Installation
@@ -89,6 +90,9 @@ src/
 git clone <repository-url>
 cd auto-playlist-backend
 
+# Install sqlc CLI tool (macOS)
+brew install sqlc
+
 # Install dependencies
 pnpm install
 
@@ -97,6 +101,9 @@ cp .env.example .env
 
 # Edit .env with your configuration
 # At minimum, set DB_PASSWORD for database connection
+
+# Generate type-safe database code (after setting up schema)
+sqlc generate
 ```
 
 ### Environment Configuration
@@ -131,6 +138,9 @@ ANALYSIS_TIMEOUT_MS=30000
 ### Development
 
 ```bash
+# Generate type-safe database code
+sqlc generate
+
 # Start development server
 pnpm dev
 
@@ -142,6 +152,9 @@ pnpm start
 
 # Generate OpenAPI documentation
 pnpm generate-openapi
+
+# Run type checks and linting
+pnpm check
 ```
 
 The server will start on `http://localhost:3000` with a health check endpoint at `/health`.

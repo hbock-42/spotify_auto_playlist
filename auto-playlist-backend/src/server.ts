@@ -111,19 +111,19 @@ const ServerLive = Layer.unwrapEffect(
   Effect.gen(function* () {
     const config = yield* appConfig
     const baseUrl = `http://localhost:${config.server.port}`
-    
+
     const layer = NodeHttpServer.layer(() => createServer(), {
       port: config.server.port,
       host: config.server.host,
     })
-    
+
     // Add startup messages after the server layer is created
     yield* Effect.logInfo(`🚀 Auto Playlist Backend API started`)
     yield* Effect.logInfo(`📖 Swagger UI: ${baseUrl}/docs`)
     yield* Effect.logInfo(`📚 ReDoc: ${baseUrl}/redoc`)
     yield* Effect.logInfo(`🔍 OpenAPI Spec: ${baseUrl}/openapi.json`)
     yield* Effect.logInfo(`❤️ Health Check: ${baseUrl}/api/health`)
-    
+
     return layer
   })
 )

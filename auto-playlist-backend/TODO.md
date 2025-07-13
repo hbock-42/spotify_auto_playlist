@@ -25,19 +25,19 @@ Node.js/TypeScript backend for the auto-playlist Flutter application. Provides a
 ## Phase 1: Project Foundation
 - [x] Setup core backend infrastructure
   - [x] Configure tRPC with OpenAPI generation
-  - [ ] Setup Supabase database connection
-  - [x] Configure Effect SQL for TypeScript generation (replaces sqlc)
+  - [x] Setup Supabase database connection
+  - [x] Configure sqlc for TypeScript generation
   - [x] Setup environment configuration
   - [x] Add input validation with Zod schemas
 
 ## Phase 2: Database Schema Design
-- [ ] Design PostgreSQL schema for audio features
-  - [ ] Create tracks table (id, spotify_id, title, artist, duration, etc.)
-  - [ ] Create audio_features table (track_id, energy, danceability, valence, tempo, etc.)
-  - [ ] Create analysis_cache table (spotify_id, features_json, analyzed_at)
-  - [ ] Add proper indexes for performance
-- [ ] Generate TypeScript types with sqlc
-- [ ] Implement database migrations
+- [x] Design PostgreSQL schema for audio features
+  - [x] Create tracks table (id, spotify_id, title, artist, duration, etc.)
+  - [x] Create audio_features table (track_id, energy, danceability, valence, tempo, etc.)
+  - [x] Create analysis_cache table (spotify_id, features_json, analyzed_at)
+  - [x] Add proper indexes for performance
+- [x] Generate TypeScript types with sqlc
+- [x] Implement database migrations
 
 ## Phase 3: Audio Analysis Service
 - [ ] Setup Essentia.js integration

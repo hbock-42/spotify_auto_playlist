@@ -85,7 +85,7 @@ src/
 - **Runtime**: Node.js with TypeScript and Effect-ts
 - **Functional Framework**: Effect-ts for type-safe functional programming
 - **API Framework**: tRPC v10 with OpenAPI integration
-- **Database**: Supabase (PostgreSQL) with Effect SQL for type-safe queries
+- **Database**: Supabase (PostgreSQL) with sqlc for type-safe queries
 - **Audio Analysis**: Essentia.js for feature extraction
 - **External API**: iTunes Search API for 30-second preview URLs
 - **Validation**: Zod v3 for schema validation and Effect integration
@@ -119,7 +119,7 @@ src/
 - **tracks**: Store track metadata and iTunes IDs
 - **audio_features**: Store extracted audio features  
 - **analysis_cache**: Cache iTunes search results and analysis
-- **Use Effect SQL**: Generate type-safe queries with @effect/sql-pg
+- **Use sqlc**: Generate type-safe queries with sqlc and sqlc-gen-typescript
 
 ### Performance Targets
 - **Single track**: < 2 seconds analysis time
@@ -185,3 +185,4 @@ const AudioAnalysisServiceLive = Layer.succeed(
 - **Always verify library documentation**: Use context7 MCP to check the latest documentation for any library before implementation
 - **Follow Clean Architecture**: Keep domain logic pure, infrastructure at the edges
 - **Use Effect patterns**: Leverage Effect.gen, Layer, and typed errors consistently
+- **Always run `just check` before thinking you have finish a task**
