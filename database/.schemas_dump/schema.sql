@@ -123,6 +123,42 @@ CREATE TABLE IF NOT EXISTS "public"."audio_features" (
 ALTER TABLE "public"."audio_features" OWNER TO "postgres";
 
 
+CREATE TABLE IF NOT EXISTS "public"."itunes_search_queries" (
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+    "search_title" character varying(255) NOT NULL,
+    "search_artist" character varying(255) NOT NULL,
+    "search_query_hash" character varying(64) NOT NULL,
+    "found_track" boolean DEFAULT false NOT NULL,
+    "itunes_track_id" bigint,
+    "cache_hit_count" integer DEFAULT 0 NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
+);
+
+
+ALTER TABLE "public"."itunes_search_queries" OWNER TO "postgres";
+
+
+CREATE TABLE IF NOT EXISTS "public"."itunes_tracks" (
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+    "itunes_id" bigint NOT NULL,
+    "track_name" character varying(255) NOT NULL,
+    "artist_name" character varying(255) NOT NULL,
+    "preview_url" "text",
+    "artwork_url_100" "text",
+    "primary_genre_name" character varying(100),
+    "release_date" "date",
+    "track_time_millis" integer,
+    "collection_name" character varying(255),
+    "itunes_response_json" "jsonb",
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
+);
+
+
+ALTER TABLE "public"."itunes_tracks" OWNER TO "postgres";
+
+
 CREATE TABLE IF NOT EXISTS "public"."tracks" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "spotify_id" character varying(255),
@@ -135,7 +171,8 @@ CREATE TABLE IF NOT EXISTS "public"."tracks" (
     "genre" character varying(100),
     "release_date" character varying(50),
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL
+    "updated_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "itunes_track_id" "uuid"
 );
 
 
@@ -154,6 +191,26 @@ ALTER TABLE ONLY "public"."analysis_cache"
 
 ALTER TABLE ONLY "public"."audio_features"
     ADD CONSTRAINT "audio_features_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."itunes_search_queries"
+    ADD CONSTRAINT "itunes_search_queries_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."itunes_search_queries"
+    ADD CONSTRAINT "itunes_search_queries_search_query_hash_key" UNIQUE ("search_query_hash");
+
+
+
+ALTER TABLE ONLY "public"."itunes_tracks"
+    ADD CONSTRAINT "itunes_tracks_itunes_id_key" UNIQUE ("itunes_id");
+
+
+
+ALTER TABLE ONLY "public"."itunes_tracks"
+    ADD CONSTRAINT "itunes_tracks_pkey" PRIMARY KEY ("id");
 
 
 
@@ -204,11 +261,51 @@ CREATE INDEX "idx_audio_features_valence" ON "public"."audio_features" USING "bt
 
 
 
+CREATE INDEX "idx_itunes_search_queries_cache_hit_count" ON "public"."itunes_search_queries" USING "btree" ("cache_hit_count");
+
+
+
+CREATE INDEX "idx_itunes_search_queries_created_at" ON "public"."itunes_search_queries" USING "btree" ("created_at");
+
+
+
+CREATE INDEX "idx_itunes_search_queries_found_track" ON "public"."itunes_search_queries" USING "btree" ("found_track");
+
+
+
+CREATE UNIQUE INDEX "idx_itunes_search_queries_hash" ON "public"."itunes_search_queries" USING "btree" ("search_query_hash");
+
+
+
+CREATE INDEX "idx_itunes_tracks_artist_name" ON "public"."itunes_tracks" USING "btree" ("artist_name");
+
+
+
+CREATE INDEX "idx_itunes_tracks_created_at" ON "public"."itunes_tracks" USING "btree" ("created_at");
+
+
+
+CREATE INDEX "idx_itunes_tracks_genre" ON "public"."itunes_tracks" USING "btree" ("primary_genre_name");
+
+
+
+CREATE UNIQUE INDEX "idx_itunes_tracks_itunes_id" ON "public"."itunes_tracks" USING "btree" ("itunes_id");
+
+
+
+CREATE INDEX "idx_itunes_tracks_track_name" ON "public"."itunes_tracks" USING "btree" ("track_name");
+
+
+
 CREATE INDEX "idx_tracks_created_at" ON "public"."tracks" USING "btree" ("created_at");
 
 
 
 CREATE INDEX "idx_tracks_itunes_id" ON "public"."tracks" USING "btree" ("itunes_id");
+
+
+
+CREATE INDEX "idx_tracks_itunes_track_id" ON "public"."tracks" USING "btree" ("itunes_track_id");
 
 
 
@@ -221,6 +318,14 @@ CREATE INDEX "idx_tracks_title_artist" ON "public"."tracks" USING "btree" ("titl
 
 
 CREATE OR REPLACE TRIGGER "update_analysis_cache_updated_at" BEFORE UPDATE ON "public"."analysis_cache" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at"();
+
+
+
+CREATE OR REPLACE TRIGGER "update_itunes_search_queries_updated_at" BEFORE UPDATE ON "public"."itunes_search_queries" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at"();
+
+
+
+CREATE OR REPLACE TRIGGER "update_itunes_tracks_updated_at" BEFORE UPDATE ON "public"."itunes_tracks" FOR EACH ROW EXECUTE FUNCTION "public"."update_updated_at"();
 
 
 
@@ -240,6 +345,16 @@ ALTER TABLE ONLY "public"."analysis_cache"
 
 ALTER TABLE ONLY "public"."audio_features"
     ADD CONSTRAINT "audio_features_track_id_fkey" FOREIGN KEY ("track_id") REFERENCES "public"."tracks"("id") ON DELETE CASCADE;
+
+
+
+ALTER TABLE ONLY "public"."itunes_search_queries"
+    ADD CONSTRAINT "itunes_search_queries_itunes_track_id_fkey" FOREIGN KEY ("itunes_track_id") REFERENCES "public"."itunes_tracks"("itunes_id");
+
+
+
+ALTER TABLE ONLY "public"."tracks"
+    ADD CONSTRAINT "tracks_itunes_track_id_fkey" FOREIGN KEY ("itunes_track_id") REFERENCES "public"."itunes_tracks"("id");
 
 
 
@@ -444,6 +559,18 @@ GRANT ALL ON TABLE "public"."analysis_cache" TO "service_role";
 GRANT ALL ON TABLE "public"."audio_features" TO "anon";
 GRANT ALL ON TABLE "public"."audio_features" TO "authenticated";
 GRANT ALL ON TABLE "public"."audio_features" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."itunes_search_queries" TO "anon";
+GRANT ALL ON TABLE "public"."itunes_search_queries" TO "authenticated";
+GRANT ALL ON TABLE "public"."itunes_search_queries" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."itunes_tracks" TO "anon";
+GRANT ALL ON TABLE "public"."itunes_tracks" TO "authenticated";
+GRANT ALL ON TABLE "public"."itunes_tracks" TO "service_role";
 
 
 

@@ -52,16 +52,16 @@ Node.js/TypeScript backend for the auto-playlist Flutter application. Provides a
   - [x] Implement cache invalidation strategy
 
 ## Phase 4: iTunes API Integration & Audio Processing
-- [ ] Implement iTunes Search API integration
-  - [ ] Search iTunes by track title and artist from Flutter app
-  - [ ] Extract preview URLs from iTunes API responses
-  - [ ] Handle rate limiting (20 calls/minute)
-  - [ ] Implement caching for iTunes search results
-- [ ] Implement audio download/streaming
-  - [ ] Download/stream iTunes preview URLs (30-second AAC clips)
-  - [ ] Support AAC and other iTunes formats
-  - [ ] Temporary file management for processing
-  - [ ] Add "provided courtesy of iTunes" attribution
+- [x] Implement iTunes Search API integration
+  - [x] Search iTunes by track title and artist from Flutter app
+  - [x] Extract preview URLs from iTunes API responses
+  - [x] Handle rate limiting (20 calls/minute)
+  - [ ] Implement caching for iTunes search results (structure created, logic TODO)
+- [x] Implement audio download/streaming
+  - [x] Download/stream iTunes preview URLs (30-second AAC clips)
+  - [x] Support AAC and other iTunes formats
+  - [x] Temporary file management for processing
+  - [x] Add "provided courtesy of iTunes" attribution
 
 ## Phase 5: API Endpoints
 - [ ] Implement tRPC procedures

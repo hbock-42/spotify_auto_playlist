@@ -49,7 +49,7 @@ pnpx supabase start     # Direct command to start Supabase
 
 ### Schema Management (Declarative)
 ```bash
-just diff               # Generate migration from schema changes
+just auto-migration MIGRATION_NAME  # Generate migration from schema changes
 just migrate-up         # Apply pending migrations locally
 just migrate-down       # Rollback last migration
 just push               # Deploy schema changes to remote
@@ -108,7 +108,7 @@ database/
 
 ### Database Schema Development (Declarative Approach)
 1. **Define Schema**: Create/edit SQL files in `supabase/schemas/` to declare your desired database state
-2. **Generate Migration**: Run `just diff` to generate migration files from schema changes
+2. **Generate Migration**: Run `just auto-migration MIGRATION_NAME` to generate migration files from schema changes
 3. **Apply Locally**: Run `just migrate-up` to apply migrations to local database
 4. **Test Changes**: Verify schema changes work as expected
 5. **Deploy**: Run `just push` to deploy changes to remote database
