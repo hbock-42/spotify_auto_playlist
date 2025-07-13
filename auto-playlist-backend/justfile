@@ -1,6 +1,7 @@
 import './just_modules/table_of_content.just'
 import './just_modules/ccusage.just'
 import './just_modules/ts.just'
+import './just_modules/sql.just'
 
 # List recipe
 [group('just')]
