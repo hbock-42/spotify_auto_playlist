@@ -18,15 +18,23 @@ stop:
 auto-migration MIGRATION_NAME:
     pnpx supabase db diff -f '{{ MIGRATION_NAME }}'
 
+# Dump database schema to file
+[group('supabase')]
+_dump-schema:
+    mkdir -p .schemas_dump
+    pnpx supabase db dump --local -f .schemas_dump/schema.sql
+
 # Apply pending migrations to local database
 [group('supabase')]
 migrate-up:
     pnpx supabase migration up
+    just _dump-schema
 
 # Rollback last migration from local database
 [group('supabase')]
 migrate-down:
     pnpx supabase migration down
+    just _dump-schema
 
 # Deploy schema changes to remote database
 [group('supabase')]
