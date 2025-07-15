@@ -1,0 +1,25 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "dart /Users/bigpha/development/claude_code_hooks_library/general/run_command_with_filter.dart --command='just check' --task='full code checks' --ignore=src/generated/sqlc"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "dart /Users/bigpha/development/claude_code_hooks_library/typescript/single_file_lint.dart --file='{{file_path}}' --command='just lint'"
+          }
+        ]
+      }
+    ]
+  }
+}
